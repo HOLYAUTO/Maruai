@@ -7,7 +7,9 @@ export type Service = {
   symptoms: string[];
   priceFrom: string;
   metaDescription: string;
-  image?: string; // 実際の施工写真のパス（例: /images/services/gaiheki.jpg）。指定すると写真を表示
+  image?: string; // 写真のパス（例: /images/services/gaiheki.jpg）。指定すると写真を表示
+  imageAlt?: string; // 写真の説明。省略時は「〇〇の施工写真」
+  imageIsStock?: boolean; // 自社の施工写真ではないイメージ写真なら true（「イメージ写真」と添える）
 };
 
 export const SERVICES: Record<string, Service> = {
@@ -18,6 +20,9 @@ export const SERVICES: Record<string, Service> = {
     lead: '下塗り・中塗り・上塗りの3回塗りを基本に、塗膜の防水・防汚機能を回復させます。',
     symptoms: ['チョーキング（白い粉）が出ている', '色あせ・ひび割れが目立つ', '築7〜10年でメンテナンス未実施'],
     priceFrom: '65万円〜（ウレタン・25坪・足場込・税抜）',
+    image: '/images/stock/roller-wall.jpg',
+    imageAlt: 'ローラーで外壁を塗っているところ',
+    imageIsStock: true,
     metaDescription:
       '茨城県阿見町の外壁塗装。完全自社施工で下塗り・中塗り・上塗りの3回塗り。チョーキングや色あせ、ひび割れの無料診断・お見積りはお気軽に。',
   },

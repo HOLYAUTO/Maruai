@@ -48,12 +48,15 @@ export default function ServicesPage() {
                 <h2>{splitName(s.name)}</h2>
                 <p className="mt-4 font-display font-bold text-lg text-ink tabular-nums">{s.priceFrom}</p>
                 {s.image ? (
-                  <figure
-                    className="photo mt-8 aspect-[4/3]"
-                    data-slot="service"
-                    data-alt={`${s.name}の施工写真`}
-                  >
-                    <img src={s.image} alt={`${s.name}の施工写真`} loading="lazy" />
+                  <figure className="mt-8 m-0">
+                    <div
+                      className="photo aspect-[4/3]"
+                      data-slot="service"
+                      data-alt={s.imageAlt ?? `${s.name}の施工写真`}
+                    >
+                      <img src={s.image} alt={s.imageAlt ?? `${s.name}の施工写真`} loading="lazy" />
+                    </div>
+                    {s.imageIsStock && <figcaption className="mt-2 label">イメージ写真</figcaption>}
                   </figure>
                 ) : null}
               </div>

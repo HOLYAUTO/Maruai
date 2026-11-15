@@ -69,10 +69,24 @@ export default function ServiceSection() {
             ))}
           </ul>
 
-          <p className="mt-8 text-base text-ink-2">
-            まずはおおよその料金をチェックしてみませんか？{" "}
-            <a href="#simulation" className="link font-medium">料金シミュレーションへ</a>
-          </p>
+          <div className="mt-[var(--space-2xl)] grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
+            <figure className="md:col-span-5 m-0">
+              <div className="photo aspect-[4/3]" data-slot="tools" data-alt="塗料トレイに置いた刷毛とローラー">
+                <img
+                  src="/images/stock/tools-tray.jpg"
+                  width={1280}
+                  height={960}
+                  alt="塗料トレイに置いた刷毛とローラー"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption className="mt-2 label">イメージ写真</figcaption>
+            </figure>
+            <p className="md:col-span-7 text-base text-ink-2">
+              まずはおおよその料金をチェックしてみませんか？{" "}
+              <a href="#simulation" className="link font-medium">料金シミュレーションへ</a>
+            </p>
+          </div>
         </div>
       </section>
 
