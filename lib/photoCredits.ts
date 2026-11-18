@@ -31,4 +31,25 @@ export const PHOTO_CREDITS: PhotoCredit[] = [
     license: 'CC BY-SA 2.0',
     licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0/',
   },
+  {
+    src: '/images/stock/roof-tiles-sealing.jpg',
+    author: 'Hawatechnoseo3',
+    source: 'https://commons.wikimedia.org/wiki/File:Roofing_Service_Singapore.jpg',
+    license: 'CC0',
+    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/',
+  },
+  {
+    src: '/images/stock/caulking-gun.jpg',
+    author: 'Achim Hering',
+    source: 'https://commons.wikimedia.org/wiki/File:Caulking.jpg',
+    license: 'CC BY 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/3.0/',
+  },
+  {
+    src: '/images/stock/roof-waterproofing.jpg',
+    author: 'Μάριος Μητσόγλου',
+    source: 'https://commons.wikimedia.org/wiki/File:Roof_waterproofing_system_application_by_Monotica_Athens.jpg',
+    license: 'CC BY-SA 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+  },
 ];

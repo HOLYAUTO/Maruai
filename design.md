@@ -34,7 +34,7 @@ Tailwind: `bg-paper` `bg-paper-2` `bg-paper-3` `bg-plate` `text-plate-ink` `text
 - Radius 0 everywhere. Depth is cast: a `.plate` (plate fill, 3px ink border, hard 6px ink shadow), one or two a page. No blurred shadows, no gradients, no glow, no icon-in-a-circle tiles, no coloured pill badges, no card inside a card.
 - Rules: a 3px ink `border-bar` across the top of a section or table; 1px `border-paper-3` hairlines between rows.
 - Bands: `bg-paper-2` (a darker pour) or one `bg-ink` band with `text-plate-ink` (use `grained--light` on it). Two bands a page at most; never an orange field.
-- Photographs: natural colour (no filter); 2px ink frame (`.photo`); caption beneath in `.label`. The client's own photographs first. Until they arrive, the owner approved freely licensed real photographs from Wikimedia Commons for tools and the act of painting only (never a house shown as a job, never a person standing for the staff); each is captioned 「イメージ写真」 and credited in the footer from `lib/photoCredits.ts`. No readdy.ai, Canva-generated or other generated images.
+- Photographs: natural colour (no filter); 2px ink frame (`.photo`); caption beneath in `.label`. The client's own photographs first. Until they arrive, the owner approved freely licensed real photographs from Wikimedia Commons for streets, tools and the work itself (never a house shown as a job; a worker only from behind or hidden, never presented as the staff); each is captioned 「イメージ写真」 and credited in the footer from `lib/photoCredits.ts`. No readdy.ai, Canva-generated or other generated images.
 - Icons: Remix Icon only, 16 to 24px, `currentColor`, inline beside text, never in a tile; `aria-hidden="true"`.
 
 ## Controls

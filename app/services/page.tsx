@@ -54,7 +54,7 @@ export default function ServicesPage() {
                       data-slot="service"
                       data-alt={s.imageAlt ?? `${s.name}の施工写真`}
                     >
-                      <img src={s.image} alt={s.imageAlt ?? `${s.name}の施工写真`} loading="lazy" style={{ objectPosition: "50% 15%" }} />
+                      <img src={s.image} alt={s.imageAlt ?? `${s.name}の施工写真`} loading="lazy" style={{ objectPosition: s.imagePosition ?? "50% 15%" }} />
                     </div>
                     {s.imageIsStock && <figcaption className="mt-2 label">イメージ写真</figcaption>}
                   </figure>
