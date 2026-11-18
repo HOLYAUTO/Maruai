@@ -5,6 +5,7 @@ export default function ExamplesHero() {
   return (
     <div id="examples-hero">
       <PageHero
+        eyebrow="Works"
         title="施工事例"
         description={
           <>

@@ -12,7 +12,7 @@ const navLinks = [
   { label: "お問い合わせ", href: "/#contact" },
 ];
 
-// nav: masthead（社名を中央に大きく、太い墨の線の下にリンクの列）
+// ヘッダー：左にロゴ、中央にリンク、右に電話番号と見積もりボタン。上部に固定
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const router = useRouter();
@@ -50,29 +50,66 @@ export function Navbar() {
   };
 
   return (
-    <header className="bg-paper">
+    <header className="sticky top-0 z-[var(--z-sticky-nav)] bg-[color-mix(in_oklab,var(--color-paper)_94%,transparent)] backdrop-blur border-b border-paper-3">
       <div className="container">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 min-h-[64px] md:min-h-[72px]">
-          <p className="label hidden md:block">阿見町の外壁・屋根塗装</p>
+        <div className="flex items-center justify-between gap-6 min-h-[68px] lg:min-h-[84px]">
+          {/* ロゴ：社名（明朝）と、小さく英字・業種 */}
           <a
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
-            aria-label="丸愛装業 トップへ"
-            className="col-start-1 md:col-start-2 justify-self-start md:justify-self-center font-display font-bold text-[1.75rem] md:text-[2.25rem] leading-none tracking-normal text-ink no-underline whitespace-nowrap"
+            aria-label="株式会社 丸愛装業 トップへ"
+            className="flex items-center gap-3 no-underline text-ink shrink-0"
           >
-            丸愛装業
+            <span
+              aria-hidden="true"
+              className="grid place-items-center w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-ink text-plate-ink font-display font-bold text-lg lg:text-xl leading-none"
+            >
+              丸
+            </span>
+            <span className="flex flex-col leading-none">
+              <span className="font-display font-bold text-[1.375rem] lg:text-[1.625rem] tracking-[0.08em] whitespace-nowrap">丸愛装業</span>
+              <span className="mt-1.5 text-[0.625rem] lg:text-[0.6875rem] font-bold tracking-[0.22em] text-muted whitespace-nowrap">
+                MARUAI SOUGYO · 外壁・屋根塗装
+              </span>
+            </span>
           </a>
-          <div className="col-start-3 flex items-center justify-end gap-6">
+
+          <nav aria-label="サイト内" className="hidden xl:block">
+            <ul className="flex items-center gap-x-7 xl:gap-x-9">
+              {navLinks.slice(1, -1).map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    aria-current={link.href === pathname ? "page" : undefined}
+                    className="relative text-[0.9375rem] font-medium text-ink no-underline whitespace-nowrap py-2 after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-px after:bg-accent after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-4 xl:gap-6">
+            <a href="tel:029-886-7913" className="hidden min-[1380px]:flex flex-col items-end no-underline text-ink leading-none whitespace-nowrap">
+              <span className="flex items-center gap-1.5 font-figure font-bold text-[1.375rem] tracking-[0.04em] tabular-nums">
+                <i className="ri-phone-fill text-accent text-lg" aria-hidden="true"></i>
+                029-886-7913
+              </span>
+              <span className="mt-1.5 text-[0.6875rem] text-muted tracking-[0.06em]">平日 9:00〜18:00</span>
+            </a>
             <a
               href="/#contact"
               onClick={(e) => handleNavClick(e, "/#contact")}
-              className="link hidden md:inline text-[0.9375rem] font-medium whitespace-nowrap"
+              className="btn btn--primary hidden sm:inline-flex min-h-[46px] px-5 text-[0.9375rem]"
             >
+              <i className="ri-mail-line" aria-hidden="true"></i>
               無料見積もり
             </a>
             <button
               type="button"
-              className="md:hidden inline-flex items-center justify-center w-12 h-12 border-2 border-ink bg-paper-2 text-ink"
+              className="xl:hidden inline-flex items-center justify-center w-12 h-12 rounded-control border border-paper-3 bg-plate text-ink"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="メニュー"
               aria-expanded={mobileOpen}
@@ -84,35 +121,19 @@ export function Navbar() {
         </div>
       </div>
 
-      <nav aria-label="サイト内" className="border-t-bar border-ink">
-        <div className="container hidden md:block">
-          <ul className="flex items-center justify-center gap-x-8 lg:gap-x-10 min-h-[44px]">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  aria-current={link.href === pathname ? "page" : undefined}
-                  className="link text-[0.9375rem] font-medium no-underline hover:underline whitespace-nowrap aria-[current=page]:underline"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {mobileOpen && (
-          <div id="site-menu" className="md:hidden container pb-6">
+      {mobileOpen && (
+        <nav id="site-menu" aria-label="サイト内（モバイル）" className="xl:hidden border-t border-paper-3 bg-paper">
+          <div className="container pb-6">
             <ul className="divide-y divide-paper-3">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="flex items-center min-h-[52px] text-base font-medium text-ink no-underline"
+                    className="flex items-center justify-between min-h-[54px] text-base font-medium text-ink no-underline"
                   >
                     {link.label}
+                    <i className="ri-arrow-right-s-line text-muted" aria-hidden="true"></i>
                   </a>
                 </li>
               ))}
@@ -121,17 +142,19 @@ export function Navbar() {
               <a
                 href="/#contact"
                 onClick={(e) => handleNavClick(e, "/#contact")}
-                className="btn btn--secondary w-full"
+                className="btn btn--primary w-full"
               >
+                <i className="ri-mail-line" aria-hidden="true"></i>
                 無料見積もり
               </a>
               <a href="tel:029-886-7913" className="btn btn--secondary w-full font-figure">
+                <i className="ri-phone-fill" aria-hidden="true"></i>
                 029-886-7913
               </a>
             </div>
           </div>
-        )}
-      </nav>
+        </nav>
+      )}
     </header>
   );
 }

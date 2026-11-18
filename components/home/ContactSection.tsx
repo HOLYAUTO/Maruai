@@ -78,10 +78,10 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="bg-paper py-[calc(var(--section-gap)/2)]">
+    <section id="contact" className="bg-paper-2 py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
-          <h2 className="md:col-span-6">電話か、LINEか、フォームか。</h2>
+          <div className="md:col-span-6"><p className="eyebrow">Contact</p><h2 className="mt-4">電話か、LINEか、フォームか。</h2></div>
           <p className="lead md:col-span-6">
             ご相談はどのような事でもお気軽にどうぞ。お問い合わせは、3営業日以内に返信させていただきます。
           </p>
@@ -159,11 +159,11 @@ export default function ContactSection() {
           </div>
 
           {/* 右：フォーム */}
-          <div className="lg:col-span-6 lg:col-start-7 border-t-bar border-ink pt-6">
+          <div className="lg:col-span-6 lg:col-start-7 rounded-card bg-plate border border-paper-3 shadow-card p-6 md:p-10">
             <h3>メールでのお問い合わせ</h3>
 
             {submitted ? (
-              <div className="mt-6 bg-paper-2 p-6 md:p-8" role="status">
+              <div className="mt-6 rounded-card bg-paper-2 p-6 md:p-8" role="status">
                 <p className="text-title font-bold text-ink">お問い合わせを送信しました</p>
                 <p className="mt-2 text-base text-ink-2">
                   お返事までしばらくお待ちください。

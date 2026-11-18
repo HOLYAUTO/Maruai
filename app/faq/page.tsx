@@ -16,6 +16,7 @@ export default function FaqPage() {
     <main className="relative">
       <JsonLd data={faqJsonLd(FAQS)} />
       <PageHero
+        eyebrow="FAQ"
         title="よくある質問"
         description="お問い合わせの前に、よくいただくご質問をまとめました。"
       />

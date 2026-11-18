@@ -28,10 +28,10 @@ const reasons = [
 
 export default function ReasonSection() {
   return (
-    <section id="reason" className="bg-paper py-[calc(var(--section-gap-l)/2)]">
+    <section id="reason" className="bg-paper py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
-          <h2 className="md:col-span-6">築7〜10年、塗り替えどき？</h2>
+          <div className="md:col-span-6"><p className="eyebrow">Check</p><h2 className="mt-4">築7〜10年、塗り替えどき？</h2></div>
           <p className="lead md:col-span-6">
             7〜10年メンテナンスをしていないお家は、以下のような劣化サインが出始めている可能性があります。早めの対処が、結果的に費用を抑える近道です。
           </p>

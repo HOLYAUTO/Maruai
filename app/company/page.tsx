@@ -34,6 +34,7 @@ export default function CompanyPage() {
   return (
     <main className="relative">
       <PageHero
+        eyebrow="Company"
         title="会社概要"
         description={
           // 文節ごとに inline-block にして「へ。」だけが次の行に落ちないようにする

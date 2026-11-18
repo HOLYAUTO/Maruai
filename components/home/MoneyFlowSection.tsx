@@ -37,10 +37,10 @@ function Rows({ rows }: { rows: Row[] }) {
 
 export default function MoneyFlowSection() {
   return (
-    <section id="moneyflow" className="bg-paper py-[calc(var(--section-gap-l)/2)]">
+    <section id="moneyflow" className="bg-paper py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
-          <h2 className="md:col-span-6">なぜ、この値段で塗れる？</h2>
+          <div className="md:col-span-6"><p className="eyebrow">Why Maruai</p><h2 className="mt-4">なぜ、この値段で塗れる？</h2></div>
           <p className="lead md:col-span-6">
             同じ100万円の塗装工事。お金の流れを比べれば、違いは一目瞭然です。
           </p>
@@ -48,7 +48,7 @@ export default function MoneyFlowSection() {
 
         <div className="mt-[var(--space-2xl)] grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-10 items-stretch">
           {/* 一般的な業者：押し込まれた面（paper-2） */}
-          <div className="bg-paper-2 p-6 md:p-10 flex flex-col">
+          <div className="rounded-card bg-paper-2 border border-paper-3 p-6 md:p-10 flex flex-col">
             <h3>一般的な塗装業者の場合</h3>
             <p className="mt-1 label">多重構造でお金が目減り</p>
             <div className="mt-6">

@@ -16,7 +16,7 @@ export default async function BlogPage() {
   const posts = await getPosts().catch(() => []);
   return (
     <main className="relative">
-      <PageHero title="塗り替え前に、知っておきたいこと。" />
+      <PageHero eyebrow="Column" title="塗り替え前に、知っておきたいこと。" />
       <section className="bg-paper pb-[calc(var(--section-gap)/2)]">
         <div className="container">
           {posts.length === 0 ? (

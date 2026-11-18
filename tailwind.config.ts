@@ -21,6 +21,7 @@ const config: Config = {
         error: 'var(--color-error)',
         success: 'var(--color-success)',
         line: 'var(--color-line)',
+        gold: 'var(--color-gold)',
       },
       fontFamily: {
         display: ['var(--font-display)'],
@@ -44,6 +45,10 @@ const config: Config = {
       },
       boxShadow: {
         card: 'var(--shadow-card)',
+      },
+      borderRadius: {
+        card: 'var(--radius-card)',
+        control: 'var(--radius-control)',
       },
       transitionTimingFunction: {
         out: 'var(--ease-out)',

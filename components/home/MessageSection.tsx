@@ -20,10 +20,10 @@ const storyCards = [
 
 export default function MessageSection() {
   return (
-    <section id="message" className="bg-ink text-plate-ink grained grained--light py-[var(--section-gap-s)]">
+    <section id="message" className="bg-ink text-plate-ink py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-baseline">
-          <h2 className="md:col-span-6 text-plate-ink">誰が塗るの？</h2>
+          <div className="md:col-span-6"><p className="eyebrow eyebrow--light">Message</p><h2 className="mt-4 text-plate-ink">誰が塗るの？</h2></div>
           <p className="md:col-span-6 text-plate-ink">
             <span className="block font-display font-bold text-title">代表取締役の小林力也です。</span>
             <span className="block mt-1 text-base">見積もりから施工、アフターまで、代表が責任を持ちます。</span>

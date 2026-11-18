@@ -119,6 +119,7 @@ export default function PrivacyPage() {
         ])}
       />
       <PageHero
+        eyebrow="Privacy Policy"
         title="プライバシーポリシー"
         description="お客様の個人情報の取り扱いについて"
       />

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Oswald, Zen_Kaku_Gothic_New } from 'next/font/google';
+import { Shippori_Mincho_B1, Zen_Kaku_Gothic_New } from 'next/font/google';
 import 'remixicon/fonts/remixicon.css';
 import './globals.css';
 import { Navbar } from '@/components/site/Navbar';
@@ -8,13 +8,14 @@ import { FloatingMaruai } from '@/components/feature/FloatingMaruai';
 import { JsonLd } from '@/components/JsonLd';
 import { localBusinessJsonLd, SITE, IS_PRODUCTION } from '@/lib/seo';
 
-// Hallmark Formwork：欧文・数字は Oswald 700、和文（見出し・本文）は Zen Kaku Gothic New。
-// ウェイトは 400 / 500 / 700 の3つまで（F19）。CSS 変数は app/tokens.css の --font-* が参照する。
-const oswald = Oswald({
-  weight: ['700'],
+// 見出し・数字：しっぽり明朝 B1（職人の手仕事の印象）、本文：Zen Kaku Gothic New。
+// CSS 変数は app/tokens.css の --font-* が参照する。
+const mincho = Shippori_Mincho_B1({
+  weight: ['600', '700'],
   subsets: ['latin'],
-  variable: '--font-oswald',
+  variable: '--font-mincho',
   display: 'swap',
+  preload: false,
 });
 const zen = Zen_Kaku_Gothic_New({
   weight: ['400', '500', '700'],
@@ -49,8 +50,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={`${oswald.variable} ${zen.variable}`}>
-      <body className="grained">
+    <html lang="ja" className={`${mincho.variable} ${zen.variable}`}>
+      <body>
         <Navbar />
         {children}
         <SiteFooter />

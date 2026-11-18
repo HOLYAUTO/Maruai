@@ -37,6 +37,7 @@ export default async function VoicePage() {
         ])}
       />
       <PageHero
+        eyebrow="Voice"
         title="お客様の声"
         description="工事を終えたお客様からいただいた、率直な感想です。"
       />

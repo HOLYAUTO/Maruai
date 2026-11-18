@@ -113,10 +113,10 @@ export default function SimulationSection() {
   const partsLabels = partsOptions.filter((p) => selectedParts[p.key]).map((p) => p.label);
 
   return (
-    <section id="simulation" className="bg-paper py-[calc(var(--section-gap)/2)]">
+    <section id="simulation" className="bg-paper-2 py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
-          <h2 className="md:col-span-6">あなたのお家はいくら？</h2>
+          <div className="md:col-span-6"><p className="eyebrow">Simulation</p><h2 className="mt-4">あなたのお家はいくら？</h2></div>
           <div className="md:col-span-6">
             <p className="lead">
               坪数とプランを選ぶだけ。おおよその料金がその場ですぐにわかります。訪問販売の高額見積もりと比べてみてください。
@@ -169,7 +169,7 @@ export default function SimulationSection() {
               <h3 className="flex items-baseline gap-3 before:content-[counter(step)] before:font-figure before:text-3xl">
                 塗装プランを選択
               </h3>
-              <ul className="mt-6 border-t border-paper-3">
+              <ul className="mt-6 grid gap-2">
                 {planOptions.map((p) => {
                   const active = plan === p.key;
                   return (
@@ -178,15 +178,15 @@ export default function SimulationSection() {
                         type="button"
                         onClick={() => setPlan(p.key)}
                         aria-pressed={active}
-                        className={`w-full grid grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-4 min-h-[64px] text-left border-b border-paper-3 transition-colors duration-short ${
-                          active ? "bg-plate outline outline-2 outline-ink -outline-offset-2" : "hover:bg-paper-2"
+                        className={`w-full grid grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-4 min-h-[64px] text-left rounded-control border bg-plate transition-colors duration-short ${
+                          active ? "border-accent ring-1 ring-accent" : "border-paper-3 hover:border-ink"
                         }`}
                       >
                         <span
-                          className={`w-5 h-5 border-2 border-ink flex items-center justify-center ${active ? "bg-ink" : ""}`}
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${active ? "border-accent" : "border-ink"}`}
                           aria-hidden="true"
                         >
-                          {active && <span className="w-2 h-2 bg-plate-ink"></span>}
+                          {active && <span className="w-2.5 h-2.5 rounded-full bg-accent"></span>}
                         </span>
                         <span>
                           <span className="block text-lg font-bold text-ink">{p.name}</span>
@@ -205,7 +205,7 @@ export default function SimulationSection() {
                 施工箇所を選択
               </h3>
               <p className="mt-3 label">外壁塗装は基本料金に含まれています。追加で施工したい箇所をチェックしてください。</p>
-              <div className="mt-5 flex items-center justify-between gap-3 px-4 py-3 bg-paper-2">
+              <div className="mt-5 flex items-center justify-between gap-3 px-4 py-3 rounded-control bg-plate border border-paper-3">
                 <span className="inline-flex items-center gap-3 text-base font-bold text-ink">
                   <i className="ri-checkbox-line text-xl" aria-hidden="true"></i>
                   外壁塗装（基本）
@@ -221,11 +221,11 @@ export default function SimulationSection() {
                       type="button"
                       onClick={() => togglePart(p.key)}
                       aria-pressed={isChecked}
-                      className={`flex items-center gap-3 px-3 py-3 min-h-[56px] text-left border-2 transition-colors duration-short ${
-                        isChecked ? "border-ink bg-plate" : "border-paper-3 hover:border-ink"
+                      className={`flex items-center gap-3 px-3 py-3 min-h-[56px] text-left rounded-control border bg-plate transition-colors duration-short ${
+                        isChecked ? "border-accent ring-1 ring-accent" : "border-paper-3 hover:border-ink"
                       }`}
                     >
-                      <i className={`text-xl ${isChecked ? "ri-checkbox-fill" : "ri-checkbox-blank-line"}`} aria-hidden="true"></i>
+                      <i className={`text-xl ${isChecked ? "ri-checkbox-fill text-accent" : "ri-checkbox-blank-line"}`} aria-hidden="true"></i>
                       <span>
                         <span className="block text-base font-bold text-ink leading-tight">{p.label}</span>
                         <span className="label tabular-nums">+{Math.round(p.surcharge * 100)}%</span>
@@ -239,7 +239,7 @@ export default function SimulationSection() {
           </ol>
 
           {/* 概算：選ぶあいだも見えるよう、右に留める */}
-          <div className="lg:col-span-5 lg:sticky lg:top-[var(--space-lg)] bg-ink text-plate-ink grained grained--light p-6 md:p-8" aria-live="polite">
+          <div className="lg:col-span-5 lg:sticky lg:top-[108px] rounded-card shadow-card bg-ink text-plate-ink p-6 md:p-8" aria-live="polite">
             <p className="text-base font-medium text-plate-ink">おおよその料金（税抜）</p>
             <p className="mt-2 flex items-baseline gap-1 font-figure font-bold tabular-nums text-plate-ink">
               <span className="text-[clamp(4.5rem,8vw,7.5rem)] leading-none">{estimate}</span>

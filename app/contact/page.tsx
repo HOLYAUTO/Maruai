@@ -16,6 +16,7 @@ export default function ContactPage() {
   return (
     <main className="relative">
       <PageHero
+        eyebrow="Contact"
         title="お問い合わせ"
         description="ご相談はどのような事でもお気軽にどうぞ。3営業日以内にご返信します。"
       />
