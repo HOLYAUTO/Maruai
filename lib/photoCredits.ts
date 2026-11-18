@@ -1,5 +1,5 @@
 // サイトで使っているイメージ写真（自社の施工写真ではないもの）の出典。
-// CC BY 2.0 の条件（撮影者名・出典・ライセンスへのリンク・加工の有無）をフッターに表示する。
+// CC BY / CC BY-SA の条件（撮影者名・出典・ライセンスへのリンク・加工の有無）をフッターに表示する。
 // 自社の写真に差し替えたら、ここから外す。
 export type PhotoCredit = {
   src: string; // public/ 以下のパス
@@ -18,10 +18,10 @@ export const PHOTO_CREDITS: PhotoCredit[] = [
     licenseUrl: 'https://creativecommons.org/licenses/by/2.0/',
   },
   {
-    src: '/images/stock/tools-tray.jpg',
-    author: 'whereareyousimon',
-    source: 'https://commons.wikimedia.org/wiki/File:Tray,_brush,_roller,_paint_(4116925693).jpg',
-    license: 'CC BY 2.0',
-    licenseUrl: 'https://creativecommons.org/licenses/by/2.0/',
+    src: '/images/stock/paint-supplies.jpg',
+    author: 'David Mulder',
+    source: 'https://commons.wikimedia.org/wiki/File:Indoor_painting_supplies_(30185142347).jpg',
+    license: 'CC BY-SA 2.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0/',
   },
 ];

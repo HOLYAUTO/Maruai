@@ -50,11 +50,11 @@ export default function ServicesPage() {
                 {s.image ? (
                   <figure className="mt-8 m-0">
                     <div
-                      className="photo aspect-[4/3]"
+                      className="photo aspect-[3/2]"
                       data-slot="service"
                       data-alt={s.imageAlt ?? `${s.name}の施工写真`}
                     >
-                      <img src={s.image} alt={s.imageAlt ?? `${s.name}の施工写真`} loading="lazy" />
+                      <img src={s.image} alt={s.imageAlt ?? `${s.name}の施工写真`} loading="lazy" style={{ objectPosition: "50% 15%" }} />
                     </div>
                     {s.imageIsStock && <figcaption className="mt-2 label">イメージ写真</figcaption>}
                   </figure>

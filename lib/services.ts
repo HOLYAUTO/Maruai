@@ -20,8 +20,8 @@ export const SERVICES: Record<string, Service> = {
     lead: '下塗り・中塗り・上塗りの3回塗りを基本に、塗膜の防水・防汚機能を回復させます。',
     symptoms: ['チョーキング（白い粉）が出ている', '色あせ・ひび割れが目立つ', '築7〜10年でメンテナンス未実施'],
     priceFrom: '65万円〜（ウレタン・25坪・足場込・税抜）',
-    image: '/images/stock/roller-wall.jpg',
-    imageAlt: 'ローラーで外壁を塗っているところ',
+    image: '/images/stock/paint-supplies.jpg',
+    imageAlt: '塗料の缶と刷毛、ローラー',
     imageIsStock: true,
     metaDescription:
       '茨城県阿見町の外壁塗装。完全自社施工で下塗り・中塗り・上塗りの3回塗り。チョーキングや色あせ、ひび割れの無料診断・お見積りはお気軽に。',

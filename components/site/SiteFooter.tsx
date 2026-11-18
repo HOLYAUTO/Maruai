@@ -94,7 +94,7 @@ export function SiteFooter() {
                 （<a href={c.licenseUrl} target="_blank" rel="noopener noreferrer license" className="link">{c.license}</a>）
               </span>
             ))}
-            ／Wikimedia Commons より。白黒に加工して使用しています。
+            ／Wikimedia Commons より。枠に合わせてトリミングしています。
           </p>
           <p className="mt-2 label">© 2026 株式会社 丸愛装業</p>
         </nav>

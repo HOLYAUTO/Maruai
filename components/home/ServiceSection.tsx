@@ -71,12 +71,12 @@ export default function ServiceSection() {
 
           <div className="mt-[var(--space-2xl)] grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
             <figure className="md:col-span-5 m-0">
-              <div className="photo aspect-[4/3]" data-slot="tools" data-alt="塗料トレイに置いた刷毛とローラー">
+              <div className="photo aspect-[4/3]" data-slot="tools" data-alt="ローラーで外壁を塗っているところ">
                 <img
-                  src="/images/stock/tools-tray.jpg"
+                  src="/images/stock/roller-wall.jpg"
                   width={1280}
-                  height={960}
-                  alt="塗料トレイに置いた刷毛とローラー"
+                  height={860}
+                  alt="ローラーで外壁を塗っているところ"
                   loading="lazy"
                 />
               </div>
