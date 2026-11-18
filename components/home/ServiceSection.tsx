@@ -1,3 +1,4 @@
+import AreaMap from "./AreaMap";
 // 施工内容（写真つきのカード4枚）と施工エリア
 const services = [
   {
@@ -113,69 +114,8 @@ export default function ServiceSection() {
             </p>
             <p className="mt-4 label">※親族の方、お知り合いの方が県外の場合はご相談ください。</p>
           </div>
-          <div className="lg:col-span-6 lg:col-start-7">
-            <figure className="m-0 rounded-card bg-plate border border-paper-3 shadow-card p-4 md:p-6">
-              <figcaption className="flex items-center gap-2 font-display font-bold text-title text-ink">
-                <i className="ri-map-pin-2-fill text-accent" aria-hidden="true"></i>
-                60分以内に駆けつけられる距離で
-              </figcaption>
-              {/* 位置関係の模式図（北が上、縮尺はおおよそ） */}
-              <svg viewBox="0 0 600 420" className="mt-4 w-full h-auto" role="img" aria-labelledby="area-map-title">
-                <title id="area-map-title">阿見町を中心に、土浦市・つくば市・牛久市・龍ケ崎市・取手市が60分圏内にある位置関係の図</title>
-                <defs>
-                  <radialGradient id="area-fill" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="var(--color-accent)" stopOpacity="0.16" />
-                    <stop offset="100%" stopColor="var(--color-accent)" stopOpacity="0.03" />
-                  </radialGradient>
-                </defs>
-                {/* 60分圏 */}
-                <circle cx="330" cy="215" r="175" fill="url(#area-fill)" stroke="var(--color-accent)" strokeWidth="1.5" strokeDasharray="6 6" />
-                <text x="330" y="26" textAnchor="middle" fontSize="15" fontWeight="700" fill="var(--color-accent)">60分圏（目安）</text>
-                {/* 阿見町からの線 */}
-                {[
-                  [320, 150],
-                  [230, 150],
-                  [270, 268],
-                  [300, 345],
-                  [175, 345],
-                ].map(([x, y]) => (
-                  <line key={`${x}-${y}`} x1="330" y1="215" x2={x} y2={y} stroke="var(--color-paper-3)" strokeWidth="2" />
-                ))}
-                {/* 各市 */}
-                {[
-                  ["土浦市", 320, 150, "start"],
-                  ["つくば市", 230, 150, "end"],
-                  ["牛久市", 270, 268, "end"],
-                  ["龍ケ崎市", 300, 345, "start"],
-                  ["取手市", 175, 345, "end"],
-                ].map(([name, x, y, anchor]) => (
-                  <g key={name as string}>
-                    <circle cx={x as number} cy={y as number} r="9" fill="var(--color-plate)" stroke="var(--color-ink)" strokeWidth="2.5" />
-                    <text
-                      x={(x as number) + (anchor === "start" ? 16 : -16)}
-                      y={(y as number) + 6}
-                      textAnchor={anchor as "start" | "end"}
-                      fontSize="19"
-                      fontWeight="700"
-                      fill="var(--color-ink)"
-                    >
-                      {name}
-                    </text>
-                  </g>
-                ))}
-                {/* 阿見町（本社） */}
-                <circle cx="330" cy="215" r="30" fill="var(--color-accent)" opacity="0.18" />
-                <circle cx="330" cy="215" r="16" fill="var(--color-accent)" />
-                <text x="356" y="211" fontSize="22" fontWeight="700" fill="var(--color-ink)">阿見町</text>
-                <text x="356" y="235" fontSize="14" fill="var(--color-muted)">丸愛装業（本社）</text>
-                {/* 方位 */}
-                <g transform="translate(560 48)" fill="var(--color-muted)">
-                  <path d="M0 -20 L7 4 L0 0 L-7 4 Z" />
-                  <text y="22" textAnchor="middle" fontSize="13" fontWeight="700">N</text>
-                </g>
-              </svg>
-              <p className="mt-2 text-xs text-muted">位置関係は目安です。上記以外の地域もご相談ください。</p>
-            </figure>
+          <div className="lg:col-span-7 lg:col-start-6">
+            <AreaMap />
           </div>
         </div>
       </section>
