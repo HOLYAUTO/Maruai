@@ -11,6 +11,13 @@ export type PhotoCredit = {
 
 export const PHOTO_CREDITS: PhotoCredit[] = [
   {
+    src: '/images/stock/tsukubamirai-street.jpg',
+    author: 'Otherde',
+    source: 'https://commons.wikimedia.org/wiki/File:Youkoudai4_1_Tsukubamirai-city.JPG',
+    license: 'CC BY-SA 3.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/',
+  },
+  {
     src: '/images/stock/roller-wall.jpg',
     author: 'Michael Cory',
     source: 'https://commons.wikimedia.org/wiki/File:Paint_roller_4.jpg',

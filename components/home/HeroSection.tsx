@@ -15,19 +15,22 @@ export default function HeroSection() {
       <div className="container flex flex-col min-h-[calc(100svh-120px)] pt-[var(--space-lg)] pb-[var(--space-2xl)]">
         {/* 面：写真（8列）と、価格を打ち出した板（4列） */}
         <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 min-h-[260px]">
-          <figure
-            className="photo md:col-span-8 min-h-[200px] m-0"
-            data-slot="hero"
-            data-alt="丸愛装業が塗り替えた阿見町の家の外観"
-          >
-            <img
-              src="/images/hero.jpg"
-              width={1200}
-              height={700}
-              alt="青空の下に並ぶ住宅街のイメージ"
-              fetchPriority="high"
-              style={{ objectPosition: "50% 45%" }}
-            />
+          <figure className="md:col-span-8 m-0 flex flex-col min-h-[200px]">
+            <div
+              className="photo flex-1 min-h-[200px]"
+              data-slot="hero"
+              data-alt="茨城県つくばみらい市の住宅街"
+            >
+              <img
+                src="/images/stock/tsukubamirai-street.jpg"
+                width={1600}
+                height={1200}
+                alt="茨城県つくばみらい市の住宅街。新しい戸建てが並ぶ並木道"
+                fetchPriority="high"
+                style={{ objectPosition: "50% 30%" }}
+              />
+            </div>
+            <figcaption className="mt-2 label">イメージ写真（つくばみらい市の住宅街）</figcaption>
           </figure>
           <div className="plate bg-accent md:col-span-4 flex flex-col justify-end p-6 md:p-8">
             <p className="label text-ink">外壁塗装の料金</p>
