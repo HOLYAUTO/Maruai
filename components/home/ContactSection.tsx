@@ -3,6 +3,15 @@ import { useState, useRef, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 
 // 電話か、LINEか、フォームか。：左に電話・LINE・会社の情報（#company）、右にフォーム（Form）
+// ご依頼の流れ（/services の流れと同じ内容）
+const FLOW = [
+  { t: "ご相談", d: "LINE・電話・フォームからお気軽に。", icon: "ri-chat-3-line" },
+  { t: "現地診断", d: "代表が直接、外壁・屋根を点検します。", icon: "ri-search-eye-line" },
+  { t: "お見積り", d: "内訳の明確な、適正価格をご提示。", icon: "ri-file-list-3-line" },
+  { t: "施工", d: "自社の職人が、丁寧に塗り上げます。", icon: "ri-paint-brush-line" },
+  { t: "アフター", d: "最長10年保証で、その後も安心。", icon: "ri-shield-check-line" },
+];
+
 export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
@@ -86,6 +95,26 @@ export default function ContactSection() {
             ご相談はどのような事でもお気軽にどうぞ。お問い合わせは、3営業日以内に返信させていただきます。
           </p>
         </div>
+
+        {/* ご依頼の流れ：アイコンと番号を矢印でつないだ5ステップ */}
+        <ol className="mt-[var(--space-2xl)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-0">
+          {FLOW.map((f, i) => (
+            <li key={f.t} className="relative flex lg:flex-col items-start lg:items-center gap-4 lg:gap-3 lg:text-center lg:px-4">
+              {/* つなぎの線（lg 以上） */}
+              {i < FLOW.length - 1 && (
+                <span aria-hidden="true" className="hidden lg:block absolute top-9 left-[calc(50%+44px)] right-[calc(-50%+44px)] h-px bg-[repeating-linear-gradient(90deg,var(--color-ink-2)_0_6px,transparent_6px_12px)]"></span>
+              )}
+              <span className="relative shrink-0 grid place-items-center w-[72px] h-[72px] rounded-full bg-plate border border-paper-3 shadow-card text-ink">
+                <i className={`${f.icon} text-[1.75rem]`} aria-hidden="true"></i>
+                <span className="absolute -top-1 -right-1 grid place-items-center w-7 h-7 rounded-full bg-accent text-accent-ink font-figure font-bold text-sm">{i + 1}</span>
+              </span>
+              <span>
+                <span className="block font-display font-bold text-[1.25rem] text-ink">{f.t}</span>
+                <span className="block mt-1 text-sm text-ink-2 leading-relaxed">{f.d}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
 
         <div ref={sectionRef} className="mt-[var(--space-2xl)] grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-12">
           {/* 左：電話・LINE と会社の情報 */}

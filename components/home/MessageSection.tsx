@@ -1,19 +1,23 @@
-// 代表からのメッセージ：墨の帯（Statement）。生成された代表の顔写真と挿絵は外し、言葉だけで見せる。
+// 代表からのメッセージ：紺の帯。4つの想いはアイコンと番号付き。生成された顔写真や挿絵は使わない。
 const storyCards = [
   {
     title: "100万円の重み",
+    icon: "ri-wallet-3-line",
     text: "3年〜5年かけて貯めた大切なお金。そのお金で外壁塗装を行うからこそ、業者選びは慎重に。",
   },
   {
     title: "業者選びの現実",
+    icon: "ri-door-open-line",
     text: "「面倒だから」と訪問業者に任せていませんか？支払った金額がしっかり施工に反映される業者を。",
   },
   {
     title: "現場で見た真実",
+    icon: "ri-eye-line",
     text: "高額でも品質が伴わない現実を数多く目撃。「お客様の期待に真っ直ぐ応えたい」と独立を決意。",
   },
   {
     title: "丸愛装業の約束",
+    icon: "ri-shake-hands-line",
     text: "見積〜施工〜アフターまで代表が全責任。小さな会社だからこそ一件一件に真心を込めて。",
   },
 ];
@@ -40,12 +44,18 @@ export default function MessageSection() {
         </div>
 
         <ul className="mt-[var(--space-2xl)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-[color-mix(in_oklab,var(--color-plate-ink)_35%,transparent)]">
-          {storyCards.map((card) => (
+          {storyCards.map((card, i) => (
             <li
               key={card.title}
               className="pt-6 pb-2 sm:pr-6 lg:[&:not(:first-child)]:pl-6 lg:[&:not(:first-child)]:border-l border-[color-mix(in_oklab,var(--color-plate-ink)_35%,transparent)]"
             >
-              <h3 className="text-plate-ink">{card.title}</h3>
+              <div className="flex items-center gap-3">
+                <span className="grid place-items-center w-12 h-12 rounded-full border border-gold text-gold" aria-hidden="true">
+                  <i className={`${card.icon} text-2xl`}></i>
+                </span>
+                <span className="font-figure font-bold text-gold tracking-[0.12em]">0{i + 1}</span>
+              </div>
+              <h3 className="mt-4 text-plate-ink">{card.title}</h3>
               <p className="mt-3 text-base text-plate-ink">{card.text}</p>
             </li>
           ))}
