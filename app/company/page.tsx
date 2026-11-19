@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/site/PageHero';
+import WorkLocator from '@/components/examples/WorkLocator';
 
 export const metadata: Metadata = {
   title: '会社概要',
@@ -29,7 +30,7 @@ const REP_POINTS = [
   { icon: 'ri-map-pin-time-line', text: 'すぐ駆けつけられる60分圏内に限定して施工' },
 ];
 
-// 構成：Banner → 代表挨拶（Split：プロフィールの板 5列 ＋ 挨拶文 6列）→ 会社概要（見出し 1〜4列 ＋ 表 5〜12列）
+// 構成：PageHero → 代表挨拶（プロフィールのカード ＋ 挨拶文）→ 会社概要（表 ＋ 所在地の地図）
 export default function CompanyPage() {
   return (
     <main className="relative">
@@ -46,81 +47,120 @@ export default function CompanyPage() {
       />
 
       {/* 代表挨拶 */}
-      <section className="bg-paper pt-[var(--space-lg)] pb-[calc(var(--section-gap)/2)]">
+      <section className="bg-paper pb-[var(--section-gap)]">
         <div className="container">
-          <h2 className="max-w-none">どうして、独立したの？</h2>
+          <p className="eyebrow">Message</p>
+          <h2 className="mt-4 max-w-none">どうして、独立したの？</h2>
 
-          <div className="mt-[var(--space-2xl)] grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-12 items-start">
-            {REP_PHOTO ? (
-              <figure
-                className="photo md:col-span-5 m-0 aspect-[4/5]"
-                data-slot="representative"
-              >
-                <img
-                  src={REP_PHOTO}
-                  alt="株式会社 丸愛装業 代表取締役 小林 力也"
-                  width={800}
-                  height={1000}
-                />
-              </figure>
-            ) : (
-              <div className="plate md:col-span-5 p-6 md:p-8">
-                <p className="label">代表取締役</p>
-                <p className="mt-1 font-display font-bold text-[length:var(--text-3xl)] leading-tight text-ink [font-feature-settings:'palt']">
-                  小林 力也
-                </p>
-                <ul className="mt-6 border-t-hair border-paper-3 divide-y divide-paper-3">
+          <div className="mt-[var(--space-2xl)] grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10 items-start">
+            {/* 代表のプロフィール */}
+            <div className="lg:col-span-5">
+              {REP_PHOTO ? (
+                <figure className="m-0">
+                  <div className="photo relative aspect-[4/5]" data-slot="representative">
+                    <img src={REP_PHOTO} alt="株式会社 丸愛装業 代表取締役 小林 力也" width={800} height={1000} />
+                  </div>
+                </figure>
+              ) : null}
+              <div className={`rounded-card bg-plate border border-paper-3 shadow-card p-6 md:p-8 ${REP_PHOTO ? "mt-4" : ""}`}>
+                <div className="flex items-center gap-4">
+                  <span
+                    aria-hidden="true"
+                    className="grid place-items-center w-16 h-16 rounded-full bg-ink text-plate-ink font-display font-bold text-2xl"
+                  >
+                    丸
+                  </span>
+                  <div>
+                    <p className="text-sm text-ink-2">株式会社 丸愛装業　代表取締役</p>
+                    <p className="mt-1 font-display font-bold text-[1.875rem] leading-tight text-ink tracking-[0.08em]">小林 力也</p>
+                  </div>
+                </div>
+                <ul className="mt-6 grid gap-3">
                   {REP_POINTS.map((p) => (
-                    <li key={p.text} className="flex items-start gap-3 py-4 text-base text-ink">
-                      <i className={`${p.icon} text-xl leading-[1.75] text-ink`} aria-hidden="true"></i>
+                    <li key={p.text} className="flex items-center gap-3 rounded-control bg-paper-2 px-4 py-3 text-[0.9375rem] font-medium text-ink">
+                      <i className={`${p.icon} text-xl text-accent`} aria-hidden="true"></i>
                       <span>{p.text}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-            )}
+            </div>
 
-            <div className="md:col-span-6 md:col-start-7">
-              <p className="font-display font-bold text-[length:var(--text-2xl)] leading-[1.4] text-ink [font-feature-settings:'palt']">
-                「期待しているよ」
-                <br />
-                その言葉に、
-                <br />
-                真っ直ぐ応えたくて。
-              </p>
-              <div className="mt-8 space-y-5 text-base text-ink-2 max-w-[38em]">
+            {/* 挨拶文 */}
+            <div className="lg:col-span-6 lg:col-start-7">
+              <figure className="m-0 relative">
+                <i className="ri-double-quotes-l absolute -top-2 -left-1 text-5xl text-accent opacity-80" aria-hidden="true"></i>
+                <blockquote className="m-0 pl-12">
+                  <p className="font-display font-bold text-[clamp(1.5rem,1.6vw+1rem,2.25rem)] leading-[1.5] text-ink [&>span]:inline-block">
+                    <span>「期待しているよ」</span>
+                    <br />
+                    <span>その言葉に、</span>
+                    <span>真っ直ぐ応えたくて。</span>
+                  </p>
+                </blockquote>
+              </figure>
+              <div className="mt-8 space-y-5 text-base text-ink-2 leading-[1.9] max-w-[38em]">
                 <p>100万円を貯めるのに、3年、5年とかかる方も少なくありません。その大切なお金で行う外壁塗装が、本当に信頼できる業者に任せられているか。私はそこを一番に考えています。</p>
                 <p>営業会社が請けた工事では、職人に渡る材料費や工賃が削られ、どう頑張っても良い仕事ができない。その悔しさが、独立の原点です。小さな会社だからこそ、一件一件に真心を込めて対応します。</p>
               </div>
-              <p className="mt-8 pt-5 border-t-hair border-paper-3 text-base text-ink-2">
-                株式会社 丸愛装業　代表取締役　<b className="font-display font-bold text-ink">小林 力也</b>
+              <p className="mt-8 flex items-center justify-end gap-3 text-sm text-ink-2">
+                株式会社 丸愛装業　代表取締役
+                <span className="font-display font-bold text-[1.5rem] text-ink tracking-[0.12em]">小林 力也</span>
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 会社概要：見出しを左に、表（dl）を右に。上端に墨の太線、行の間は細線 */}
-      <section className="bg-paper py-[calc(var(--section-gap-l)/2)]">
+      {/* 会社概要：表と、所在地の地図 */}
+      <section className="bg-paper-2 border-t border-paper-3 py-[var(--section-gap)]">
         <div className="container">
-          <div className="rule-bar grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-8 pt-[var(--space-xl)]">
-            <h2 className="md:col-span-4">どこの、どんな会社？</h2>
-            <dl className="md:col-span-8 divide-y divide-paper-3 border-b-hair border-paper-3">
+          <p className="eyebrow">Profile</p>
+          <h2 className="mt-4">どこの、どんな会社？</h2>
+
+          <div className="mt-[var(--space-2xl)] grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-8 items-start">
+            <dl className="lg:col-span-7 rounded-card bg-plate border border-paper-3 overflow-hidden">
               {CORP.map(([k, v]) => (
-                <div key={String(k)} className="grid grid-cols-1 sm:grid-cols-8 gap-x-8 gap-y-1 py-4 md:py-5">
-                  <dt className="sm:col-span-2 text-base font-bold text-ink">{k}</dt>
-                  <dd className="sm:col-span-6 text-base text-ink-2 tabular-nums">{v}</dd>
+                <div key={String(k)} className="grid grid-cols-1 sm:grid-cols-[9em_minmax(0,1fr)] border-b border-paper-3 last:border-b-0">
+                  <dt className="px-5 pt-4 sm:py-4 sm:bg-paper-2 text-sm font-bold text-ink">{k}</dt>
+                  <dd className="m-0 px-5 pb-4 pt-1 sm:py-4 text-[0.9375rem] text-ink-2 tabular-nums">{v}</dd>
                 </div>
               ))}
-              <div className="grid grid-cols-1 sm:grid-cols-8 gap-x-8 gap-y-1 py-4 md:py-5">
-                <dt className="sm:col-span-2 text-base font-bold text-ink">公式SNS</dt>
-                <dd className="sm:col-span-6 text-base text-ink-2">
-                  <a href="https://line.me/ti/p/UxXZqXMSWE" className="link">公式LINE</a>
-                  <span className="mx-2 text-ink-2" aria-hidden="true">／</span>
-                  <a href="https://www.instagram.com/maruaisougyou" className="link whitespace-nowrap">Instagram @maruaisougyou</a>
+              <div className="grid grid-cols-1 sm:grid-cols-[9em_minmax(0,1fr)]">
+                <dt className="px-5 pt-4 sm:py-4 sm:bg-paper-2 text-sm font-bold text-ink">公式SNS</dt>
+                <dd className="m-0 px-5 pb-4 pt-1 sm:py-4 flex flex-wrap gap-x-5 gap-y-1 text-[0.9375rem]">
+                  <a href="https://line.me/ti/p/UxXZqXMSWE" target="_blank" rel="nofollow noopener noreferrer" className="link inline-flex items-center gap-1.5">
+                    <i className="ri-line-fill" aria-hidden="true"></i>公式LINE
+                  </a>
+                  <a href="https://www.instagram.com/maruaisougyou" target="_blank" rel="nofollow noopener noreferrer" className="link inline-flex items-center gap-1.5 whitespace-nowrap">
+                    <i className="ri-instagram-line" aria-hidden="true"></i>@maruaisougyou
+                  </a>
                 </dd>
               </div>
             </dl>
+
+            <div className="lg:col-span-5 rounded-card bg-plate border border-paper-3 p-5 md:p-6">
+              <p className="flex items-center gap-2 font-display font-bold text-title text-ink">
+                <i className="ri-map-pin-2-fill text-accent" aria-hidden="true"></i>
+                所在地
+              </p>
+              <WorkLocator location="茨城県阿見町" className="mt-4" />
+              <p className="mt-4 text-[0.9375rem] text-ink leading-relaxed">
+                〒300-0325
+                <br />
+                茨城県稲敷郡阿見町上条888
+              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=%E8%8C%A8%E5%9F%8E%E7%9C%8C%E7%A8%B2%E6%95%B7%E9%83%A1%E9%98%BF%E8%A6%8B%E7%94%BA%E4%B8%8A%E6%9D%A1888"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn--secondary w-full mt-5"
+              >
+                <i className="ri-map-2-line text-xl" aria-hidden="true"></i>
+                Googleマップで開く
+              </a>
+              <p className="mt-3 text-xs text-muted">地図：国土数値情報（行政区域データ）・国土地理院ベクトルタイルを加工して作成</p>
+            </div>
           </div>
         </div>
       </section>
