@@ -1,9 +1,9 @@
 export const MARUAI_IMAGES = {
-  main: "https://public.readdy.ai/ai/img_res/e180f139-f68c-41a0-8451-e6b5fe97327d.png",
-  thumbsUp: "https://public.readdy.ai/ai/img_res/3ec67620-cf3b-4ac8-8ac0-176fa9fe6ed2.png",
-  pointing: "https://public.readdy.ai/ai/img_res/7884b395-8615-4127-ac60-38f288b36837.png",
-  paint: "https://public.readdy.ai/ai/img_res/ec914c62-6104-4e23-9f9a-2da63b264e30.png",
-  wave: "https://public.readdy.ai/ai/img_res/ed0d67ae-a700-4ac4-b033-6f4437102287.png",
+  main: "/images/maruai/main.webp",
+  thumbsUp: "/images/maruai/thumbsUp.webp",
+  pointing: "/images/maruai/pointing.webp",
+  paint: "/images/maruai/paint.webp",
+  wave: "/images/maruai/wave.webp",
 };
 
 export const MARUAI_COMMENTS = {

@@ -182,7 +182,7 @@ export function FloatingMaruai() {
         >
           <div className="flex items-end gap-2 md:gap-3 flex-row-reverse">
             <motion.div
-              className="w-[76px] h-[88px] md:w-28 md:h-32 lg:w-36 lg:h-[168px] shrink-0 cursor-pointer"
+              className="w-[104px] h-[104px] md:w-36 md:h-36 lg:w-44 lg:h-44 shrink-0 cursor-pointer"
               animate={{ y: [0, -6, 0] }}
               transition={{
                 y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
