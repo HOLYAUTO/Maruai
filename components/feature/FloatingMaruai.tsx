@@ -182,7 +182,7 @@ export function FloatingMaruai() {
         >
           <div className="flex items-end gap-2 md:gap-3 flex-row-reverse">
             <motion.div
-              className="w-12 h-14 md:w-20 md:h-24 lg:w-24 lg:h-28 shrink-0 cursor-pointer"
+              className="w-[76px] h-[88px] md:w-28 md:h-32 lg:w-36 lg:h-[168px] shrink-0 cursor-pointer"
               animate={{ y: [0, -6, 0] }}
               transition={{
                 y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
@@ -210,9 +210,9 @@ export function FloatingMaruai() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: -10, scale: 0.95 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="relative rounded-xl px-2 py-1.5 md:px-4 md:py-3 bg-plate border border-ink max-w-[110px] md:max-w-[240px] lg:max-w-[280px] shadow-sm"
+                  className="relative rounded-xl px-2 py-1.5 md:px-4 md:py-3 bg-plate border border-ink max-w-[150px] md:max-w-[260px] lg:max-w-[300px] shadow-sm"
                 >
-                  <p className="text-[10px] leading-snug md:text-sm lg:text-base text-ink font-medium">
+                  <p className="text-[11px] leading-snug md:text-sm lg:text-base text-ink font-medium">
                     {displayData.comment}
                   </p>
                   <div className="absolute bottom-4 right-[-6px] w-3 h-3 rotate-45 bg-plate border-r-0 border-t-0 border border-ink" />
