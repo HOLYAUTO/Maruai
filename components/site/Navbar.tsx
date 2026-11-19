@@ -8,7 +8,7 @@ const navLinks = [
   { label: "料金シミュレーション", href: "/#simulation" },
   { label: "施工事例", href: "/works" },
   { label: "代表挨拶", href: "/#message" },
-  { label: "会社概要", href: "/#company" },
+  { label: "会社概要", href: "/company" },
   { label: "お問い合わせ", href: "/#contact" },
 ];
 

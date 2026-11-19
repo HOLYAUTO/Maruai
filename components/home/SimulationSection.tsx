@@ -113,7 +113,7 @@ export default function SimulationSection() {
   const partsLabels = partsOptions.filter((p) => selectedParts[p.key]).map((p) => p.label);
 
   return (
-    <section id="simulation" className="bg-paper-2 py-[var(--section-gap)]">
+    <section id="simulation" className="bg-paper py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
           <div className="md:col-span-6"><p className="eyebrow">Simulation</p><h2 className="mt-4">あなたのお家はいくら？</h2></div>

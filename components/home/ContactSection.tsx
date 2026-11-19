@@ -87,7 +87,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="bg-paper-2 py-[var(--section-gap)]">
+    <section id="contact" className="bg-paper py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
           <div className="md:col-span-6"><p className="eyebrow">Contact</p><h2 className="mt-4">電話か、LINEか、フォームか。</h2></div>

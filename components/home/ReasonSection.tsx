@@ -32,7 +32,7 @@ const reasons = [
 
 export default function ReasonSection() {
   return (
-    <section id="reason" className="bg-paper py-[var(--section-gap)]">
+    <section id="reason" className="bg-paper-2 border-y border-paper-3 py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
           <div className="md:col-span-6"><p className="eyebrow">Check</p><h2 className="mt-4">築7〜10年、塗り替えどき？</h2></div>
@@ -42,7 +42,7 @@ export default function ReasonSection() {
         </div>
 
         {/* 築年数のタイムライン：0年 → 7〜10年（塗り替えどき） → それ以降（劣化が進む） */}
-        <figure className="mt-[var(--space-2xl)] m-0 rounded-card bg-paper-2 border border-paper-3 p-6 md:p-10">
+        <figure className="mt-[var(--space-2xl)] m-0 rounded-card bg-plate border border-paper-3 p-6 md:p-10">
           <figcaption className="font-display font-bold text-title text-ink">築年数と、外壁の状態の目安</figcaption>
           <div className="mt-10 relative" aria-hidden="true">
             {/* 帯：0〜7年 きれい / 7〜10年 塗り替えどき / 10年〜 劣化が進む */}
@@ -113,7 +113,7 @@ export default function ReasonSection() {
         </ul>
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6">
-          <div className="md:col-span-6 rounded-card bg-paper-2 border border-paper-3 p-6 md:p-8">
+          <div className="md:col-span-6 rounded-card bg-plate border border-paper-3 p-6 md:p-8">
             <span className="grid place-items-center w-12 h-12 rounded-full bg-accent text-accent-ink" aria-hidden="true"><i className="ri-search-eye-line text-2xl"></i></span>
             <h3 className="mt-4">まずは無料診断を</h3>
             <p className="mt-1 label">お気軽にご相談ください</p>
@@ -132,7 +132,7 @@ export default function ReasonSection() {
             </div>
           </div>
 
-          <div className="md:col-span-6 rounded-card bg-paper-2 border border-paper-3 p-6 md:p-8">
+          <div className="md:col-span-6 rounded-card bg-plate border border-paper-3 p-6 md:p-8">
             <span className="grid place-items-center w-12 h-12 rounded-full bg-ink text-plate-ink" aria-hidden="true"><i className="ri-umbrella-line text-2xl"></i></span>
             <h3 className="mt-4">火災保険の活用もご提案</h3>
             <p className="mt-4 text-base text-ink-2">外壁・屋根の修理には火災保険が適用されるケースがあります。</p>
