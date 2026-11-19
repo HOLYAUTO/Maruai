@@ -127,9 +127,9 @@ export default function SimulationSection() {
 
         <div className="mt-[var(--space-2xl)] grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10 items-start">
           {/* 手順：本当に順番がある作業なので <ol> */}
-          <ol className="lg:col-span-7 border-t-bar border-ink [counter-reset:step]">
-            <li className="py-8 border-b border-paper-3 [counter-increment:step]">
-              <h3 className="flex items-baseline gap-3 before:content-[counter(step)] before:font-figure before:text-3xl">
+          <ol className="lg:col-span-7 grid gap-4 [counter-reset:step]">
+            <li className="rounded-card bg-plate border border-paper-3 p-5 md:p-7 [counter-increment:step]">
+              <h3 className="flex items-center gap-3 text-[1.25rem] before:content-[counter(step)] before:grid before:place-items-center before:shrink-0 before:w-9 before:h-9 before:rounded-full before:bg-accent before:text-accent-ink before:font-figure before:text-lg before:leading-none">
                 延床面積を選択
               </h3>
               <div className="mt-6">
@@ -165,8 +165,8 @@ export default function SimulationSection() {
               </div>
             </li>
 
-            <li className="py-8 border-b border-paper-3 [counter-increment:step]">
-              <h3 className="flex items-baseline gap-3 before:content-[counter(step)] before:font-figure before:text-3xl">
+            <li className="rounded-card bg-plate border border-paper-3 p-5 md:p-7 [counter-increment:step]">
+              <h3 className="flex items-center gap-3 text-[1.25rem] before:content-[counter(step)] before:grid before:place-items-center before:shrink-0 before:w-9 before:h-9 before:rounded-full before:bg-accent before:text-accent-ink before:font-figure before:text-lg before:leading-none">
                 塗装プランを選択
               </h3>
               <ul className="mt-6 grid gap-2">
@@ -200,8 +200,8 @@ export default function SimulationSection() {
               </ul>
             </li>
 
-            <li className="py-8 border-b border-paper-3 [counter-increment:step]">
-              <h3 className="flex items-baseline gap-3 before:content-[counter(step)] before:font-figure before:text-3xl">
+            <li className="rounded-card bg-plate border border-paper-3 p-5 md:p-7 [counter-increment:step]">
+              <h3 className="flex items-center gap-3 text-[1.25rem] before:content-[counter(step)] before:grid before:place-items-center before:shrink-0 before:w-9 before:h-9 before:rounded-full before:bg-accent before:text-accent-ink before:font-figure before:text-lg before:leading-none">
                 施工箇所を選択
               </h3>
               <p className="mt-3 label">外壁塗装は基本料金に含まれています。追加で施工したい箇所をチェックしてください。</p>

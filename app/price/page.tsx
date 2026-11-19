@@ -18,6 +18,13 @@ const GRADES = [
   { jp: 'フッ素塗装', stars: 4, yen: 95, years: [15, 20] },
   { jp: '無機塗装', stars: 5, yen: 105, years: [20, 25] },
 ];
+// 料金に含まれるもの（サイト内の記載どおり：足場代込み・3回塗り・高圧洗浄は契約で無償・診断と見積もりは無料）
+const INCLUDED = [
+  { icon: 'ri-building-2-line', t: '足場代', d: '料金に込み' },
+  { icon: 'ri-stack-line', t: '3回塗り', d: '下塗り・中塗り・上塗り' },
+  { icon: 'ri-drop-line', t: '高圧洗浄', d: 'ご契約で無償' },
+  { icon: 'ri-search-eye-line', t: '現地診断・お見積り', d: '無料' },
+];
 const YEN_MAX = 110; // 料金の棒の目盛り上限（万円）
 const YEARS_MAX = 25; // 耐用年数の目盛り上限（年）
 // グレードが上がるほど濃くなる朱（一色の濃淡）
@@ -33,7 +40,7 @@ export default function PricePage() {
         description="守りたい年数で選べる、明確な料金。シミュレーターでその場で概算も出せます。"
       />
 
-      <section className="bg-paper pt-[var(--space-xl)] pb-[var(--section-gap)]">
+      <section className="bg-paper pb-[var(--section-gap)]">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10">
             <div className="lg:col-span-5"><p className="eyebrow">Plan</p><h2 className="mt-4">守りたい年数で、選べる。</h2></div>
@@ -151,6 +158,22 @@ export default function PricePage() {
               ※耐用年数は塗料の一般的な目安です。立地や日当たり、塗料メーカーによって変わります。現地診断でお住まいに合わせてご提案します。
             </p>
           </figure>
+
+          {/* 料金に含まれるもの */}
+          <div className="mt-[var(--space-2xl)]">
+            <h3 className="text-title">表示の料金に含まれるもの</h3>
+            <ul className="mt-5 grid grid-cols-2 md:grid-cols-4 gap-3">
+              {INCLUDED.map((it) => (
+                <li key={it.t} className="flex flex-col items-center text-center rounded-card bg-plate border border-paper-3 px-3 py-5">
+                  <span className="grid place-items-center w-12 h-12 rounded-full bg-paper-2 text-accent" aria-hidden="true">
+                    <i className={`${it.icon} text-2xl`}></i>
+                  </span>
+                  <span className="mt-3 font-display font-bold text-[1.0625rem] text-ink leading-snug">{it.t}</span>
+                  <span className="mt-1 text-xs text-ink-2">{it.d}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           {/* 補足の2項：アイコン付きのカード */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6">
