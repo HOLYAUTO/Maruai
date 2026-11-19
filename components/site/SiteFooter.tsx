@@ -17,23 +17,23 @@ export function SiteFooter() {
     <>
       {/* 問い合わせの帯：朱の面に、電話と見積もりの2つの入口 */}
       <section aria-label="お問い合わせ" className="bg-accent text-accent-ink">
-        <div className="container py-[var(--space-2xl)] grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-8 items-center">
-          <div className="lg:col-span-6">
+        <div className="container py-[var(--space-2xl)] grid grid-cols-1 xl:grid-cols-12 gap-x-8 gap-y-8 items-center">
+          <div className="xl:col-span-6">
             <p className="text-sm font-bold tracking-[0.24em] opacity-90">CONTACT</p>
             <p className="mt-3 font-display font-bold text-[clamp(1.5rem,2.2vw+0.75rem,2.25rem)] leading-snug [&>span]:inline-block">
               <span>お見積もり・現地診断は</span><span>無料です。</span>
             </p>
             <p className="mt-2 text-base opacity-90">ご相談はどのような事でもお気軽にどうぞ。</p>
           </div>
-          <div className="lg:col-span-6 flex flex-col sm:flex-row gap-4 lg:justify-end">
+          <div className="xl:col-span-6 flex flex-col sm:flex-row gap-4 xl:justify-end">
             <a
               href="tel:029-886-7913"
               className="flex items-center gap-4 rounded-card bg-plate text-ink no-underline px-6 py-4 shadow-card"
             >
               <i className="ri-phone-fill text-3xl text-accent" aria-hidden="true"></i>
               <span className="leading-tight">
-                <span className="block font-figure font-bold text-[1.75rem] tracking-[0.04em] tabular-nums">029-886-7913</span>
-                <span className="block text-[0.8125rem] text-ink-2">平日 9:00〜18:00</span>
+                <span className="block font-figure font-bold text-[1.5rem] sm:text-[1.75rem] tracking-[0.04em] tabular-nums whitespace-nowrap">029-886-7913</span>
+                <span className="block text-[0.8125rem] text-ink-2 whitespace-nowrap">平日 9:00〜18:00</span>
               </span>
             </a>
             <a href="/#contact" className="btn btn--on-ink min-h-[72px] px-8 text-base">
@@ -94,7 +94,7 @@ export function SiteFooter() {
 
             <nav aria-label="フッター" className="lg:col-span-4">
               <p className="text-xs font-bold tracking-[0.2em] text-gold">MENU</p>
-              <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-2.5 text-[0.9375rem]">
+              <ul className="mt-3 grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2.5 text-[0.875rem] sm:text-[0.9375rem]">
                 {SITE_LINKS.map((link) => (
                   <li key={link.href}>
                     <a href={link.href} className="inline-flex items-center gap-1 no-underline opacity-90 hover:opacity-100 hover:underline whitespace-nowrap">
@@ -104,7 +104,7 @@ export function SiteFooter() {
                   </li>
                 ))}
                 <li>
-                  <a href="/privacy" className="inline-flex items-center gap-1 no-underline opacity-90 hover:opacity-100 hover:underline whitespace-nowrap">
+                  <a href="/privacy" className="inline-flex items-center gap-1 no-underline opacity-90 hover:opacity-100 hover:underline">
                     <i className="ri-arrow-right-s-line opacity-60" aria-hidden="true"></i>
                     プライバシーポリシー
                   </a>

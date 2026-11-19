@@ -58,17 +58,17 @@ export function Navbar() {
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
             aria-label="株式会社 丸愛装業 トップへ"
-            className="flex items-center gap-3 no-underline text-ink shrink-0"
+            className="flex items-center gap-2.5 sm:gap-3 no-underline text-ink min-w-0"
           >
             <span
               aria-hidden="true"
-              className="grid place-items-center w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-ink text-plate-ink font-display font-bold text-lg lg:text-xl leading-none"
+              className="shrink-0 grid place-items-center w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full bg-ink text-plate-ink font-display font-bold text-lg lg:text-xl leading-none"
             >
               丸
             </span>
-            <span className="flex flex-col leading-none">
-              <span className="font-display font-bold text-[1.375rem] lg:text-[1.625rem] tracking-[0.08em] whitespace-nowrap">丸愛装業</span>
-              <span className="mt-1.5 text-[0.625rem] lg:text-[0.6875rem] font-bold tracking-[0.22em] text-muted whitespace-nowrap">
+            <span className="flex flex-col leading-none min-w-0">
+              <span className="font-display font-bold text-[1.25rem] sm:text-[1.375rem] lg:text-[1.625rem] tracking-[0.08em] whitespace-nowrap">丸愛装業</span>
+              <span className="mt-1.5 text-[0.5625rem] sm:text-[0.625rem] lg:text-[0.6875rem] font-bold tracking-[0.12em] sm:tracking-[0.22em] text-muted whitespace-nowrap truncate">
                 MARUAI SOUGYO · 外壁・屋根塗装
               </span>
             </span>
@@ -91,7 +91,7 @@ export function Navbar() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-4 xl:gap-6">
+          <div className="flex items-center gap-3 sm:gap-4 xl:gap-6 shrink-0">
             <a href="tel:029-886-7913" className="hidden min-[1380px]:flex flex-col items-end no-underline text-ink leading-none whitespace-nowrap">
               <span className="flex items-center gap-1.5 font-figure font-bold text-[1.375rem] tracking-[0.04em] tabular-nums">
                 <i className="ri-phone-fill text-accent text-lg" aria-hidden="true"></i>

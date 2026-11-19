@@ -27,6 +27,8 @@
   h1, h2, h3, h4, .lead, [class*="font-display"] { word-break: auto-phrase; }
   .lead { font-size: var(--text-lead); line-height: 1.65; max-width: 34em; color: var(--color-ink-2); }
   p { margin: 0; text-wrap: pretty; }
+  /* 電話番号は途中で折り返さない */
+  a[href^="tel:"] { white-space: nowrap; }
   p:not([class]) { max-width: 38em; }
   img, video { max-width: 100%; height: auto; display: block; }
   svg { display: block; }
