@@ -29,3 +29,21 @@ export const exampleCategories = [
   "屋根塗装・コーキング",
   "外壁塗装・防水工事",
 ];
+
+// 生成画像（readdy.ai の検索画像など）は施工写真として表示しない。自社の写真の URL だけを「本物」とみなす
+export function isRealPhoto(url: string | undefined | null): url is string {
+  if (!url) return false;
+  return !/readdy\.ai|readdy-site\.link/.test(url);
+}
+
+// 「2025年10月（8日間）」→ { ym: "2025.10", days: "8日間" }
+export function parsePeriod(period: string): { ym: string; days: string } {
+  const m = period.match(/(\d{4})年\s*(\d{1,2})月/);
+  const d = period.match(/（([^）]+)）/);
+  return { ym: m ? `${m[1]}.${m[2].padStart(2, "0")}` : period, days: d ? d[1] : "" };
+}
+
+// 「茨城県阿見町」→ "阿見町"（地図の市町村名に合わせ、ヶ は ケ にそろえる）
+export function cityOf(location: string): string {
+  return location.replace(/^茨城県/, "").replace(/ヶ/g, "ケ").trim();
+}

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { isRealPhoto } from '@/lib/examples';
 import { getWork, getWorks, getAllWorkIds, workToExample } from '@/lib/content';
 import { JsonLd } from '@/components/JsonLd';
 import { SITE, breadcrumbJsonLd } from '@/lib/seo';
 import ExampleDetail from '@/components/examples/ExampleDetail';
-import ExamplesCTA from '@/components/examples/ExamplesCTA';
 
 export const revalidate = 3600;
 
@@ -26,7 +26,7 @@ export async function generateMetadata({
     title: `${ex.title}｜施工事例`,
     description: `${ex.title}（${ex.category}・${ex.location}・${ex.area}）。${ex.description}`,
     alternates: { canonical: `/works/${id}` },
-    openGraph: ex.afterImage ? { images: [ex.afterImage] } : undefined,
+    openGraph: isRealPhoto(ex.afterImage) ? { images: [ex.afterImage] } : undefined,
   };
 }
 
@@ -54,7 +54,7 @@ export default async function WorkDetailPage({
     '@type': 'Article',
     headline: example.title,
     description: example.description,
-    image: example.afterImage,
+    ...(isRealPhoto(example.afterImage) ? { image: example.afterImage } : {}),
     url: pageUrl,
     author: { '@type': 'Organization', name: '株式会社 丸愛装業' },
     publisher: { '@type': 'Organization', name: '株式会社 丸愛装業' },
@@ -72,7 +72,6 @@ export default async function WorkDetailPage({
       />
       <JsonLd data={articleLd} />
       <ExampleDetail example={example} related={related} />
-      <ExamplesCTA />
     </main>
   );
 }

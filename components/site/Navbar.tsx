@@ -58,7 +58,7 @@ export function Navbar() {
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
             aria-label="株式会社 丸愛装業 トップへ"
-            className="flex items-center gap-2.5 sm:gap-3 no-underline text-ink min-w-0"
+            className="flex items-center gap-2.5 sm:gap-3 no-underline text-ink min-w-0 sm:shrink-0"
           >
             <span
               aria-hidden="true"

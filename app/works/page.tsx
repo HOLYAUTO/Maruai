@@ -5,7 +5,6 @@ import { getWorks, workToExample } from '@/lib/content';
 import { exampleCategories } from '@/lib/examples';
 import ExamplesHero from '@/components/examples/ExamplesHero';
 import ExampleGrid from '@/components/examples/ExampleGrid';
-import ExamplesCTA from '@/components/examples/ExamplesCTA';
 
 export const revalidate = 3600;
 
@@ -35,7 +34,6 @@ export default async function WorksPage() {
       />
       <ExamplesHero />
       <ExampleGrid examples={examples} categories={categories} />
-      <ExamplesCTA />
     </main>
   );
 }

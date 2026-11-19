@@ -1,145 +1,111 @@
-'use client';
-import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import type { Example } from "@/lib/examples";
-import { BeforeAfterPhoto, BeforeAfterToggle, WorkFacts } from "./ExampleGrid";
+import { isRealPhoto } from "@/lib/examples";
+import { BeforeAfterPair, CompletionSeal, WorkFacts, WorkFeatures, WorkVoice } from "./ExampleGrid";
+import WorkLocator from "./WorkLocator";
 
-// 構成：Banner（題名と工事概要の板）→ Split（ビフォーアフター）→ Rows（内容・塗料・声）→ 同じカテゴリの事例
-export default function ExampleDetail({
-  example,
-  related,
-}: {
-  example: Example;
-  related: Example[];
-}) {
-  const router = useRouter();
-  const [showBefore, setShowBefore] = useState(false);
-  const side = showBefore ? "before" : "after";
+// 施工事例の詳細：題名と完工の印 → 工事データと位置図 → 写真（自社の写真があるときだけ）→ 工事内容・塗料・お客様の声 → 同じ工事内容の事例
+export default function ExampleDetail({ example, related }: { example: Example; related: Example[] }) {
+  const hasPhotos = isRealPhoto(example.beforeImage) || isRealPhoto(example.afterImage);
 
   return (
     <article className="bg-paper">
-      {/* 題名（1〜7列）と工事概要の板（8〜12列）、下に墨の太線 */}
-      <section>
-        <div className="container pt-[var(--space-2xl)] pb-[var(--space-2xl)]">
-          <nav aria-label="パンくずリスト">
-            <Link href="/works" className="link text-base">
-              施工事例一覧に戻る
-            </Link>
+      {/* 題名 */}
+      <section className="bg-paper-2 border-b border-paper-3">
+        <div className="container pt-[var(--space-xl)] pb-[var(--space-2xl)]">
+          <nav aria-label="パンくずリスト" className="text-sm text-ink-2">
+            <Link href="/" className="no-underline hover:underline">ホーム</Link>
+            <i className="ri-arrow-right-s-line mx-1 align-middle text-muted" aria-hidden="true"></i>
+            <Link href="/works" className="no-underline hover:underline">施工事例</Link>
           </nav>
-          <div className="mt-[var(--space-xl)] grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10 items-end border-b-bar border-ink pb-[var(--space-xl)]">
-            <h1 className="lg:col-span-7 text-display-s max-w-none">{example.title}</h1>
-            <div className="plate lg:col-span-5 p-6 md:p-8">
-              <h2 className="text-title max-w-none">工事概要</h2>
-              <WorkFacts example={example} className="mt-4" />
-              <div className="mt-6 grid gap-3">
-                <a href="/#simulation" className="btn btn--secondary w-full">
-                  <i className="ri-price-tag-3-line text-xl" aria-hidden="true"></i>
-                  概算料金をチェック
-                </a>
-                <a href="tel:029-886-7913" className="btn btn--secondary w-full font-figure">
-                  <i className="ri-phone-line text-xl" aria-hidden="true"></i>
-                  029-886-7913
-                </a>
-              </div>
+          <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="eyebrow">Works</p>
+              <p className="mt-4 text-sm font-bold text-accent">{example.category}</p>
+              <h1 className="mt-1 text-[clamp(1.75rem,2.2vw+1rem,2.75rem)] max-w-[22em]">{example.title}</h1>
             </div>
+            <CompletionSeal period={example.period} />
           </div>
         </div>
       </section>
 
-      {/* ビフォーアフター：見出しと切り替え（4列）、写真（8列） */}
       <section>
-        <div className="container pb-[var(--section-gap-s)] grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-6">
-          <div className="lg:col-span-4 lg:self-center flex flex-col gap-6">
-            <h2 className="text-section [&>span]:inline-block">
-              <span>ビフォー</span><span>アフター</span>
-            </h2>
-            <BeforeAfterToggle
-              side={side}
-              onChange={(s) => setShowBefore(s === "before")}
-              label={`${example.title}の写真を切り替え`}
-            />
-          </div>
-          <figure className="m-0 lg:col-span-8 min-w-0">
-            <BeforeAfterPhoto
-              example={example}
-              side={side}
-              slot="work-detail"
-              title={showBefore ? `${example.title} 施工前の状態` : `${example.title} 施工後の仕上がり`}
-              className="aspect-[4/3]"
-              priority
-            />
-          </figure>
-        </div>
-      </section>
+        <div className="container py-[var(--space-2xl)] grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-8">
+          {/* 本文 */}
+          <div className="lg:col-span-8 min-w-0 flex flex-col gap-8">
+            {hasPhotos ? (
+              <BeforeAfterPair example={example} priority />
+            ) : (
+              <p className="flex items-center gap-3 rounded-card border border-dashed border-paper-3 bg-paper-2 px-5 py-4 text-sm text-ink-2">
+                <i className="ri-camera-line text-xl text-muted" aria-hidden="true"></i>
+                この工事の施工写真は準備中です。
+              </p>
+            )}
 
-      {/* 行：工事内容・使用塗料・お客様の声 */}
-      <section>
-        <div className="container pb-[var(--section-gap)]">
-          <div className="border-t-bar border-ink">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-3 py-[var(--space-xl)]">
-              <h2 className="md:col-span-4 text-title max-w-none">工事内容</h2>
-              <p className="md:col-span-8 text-lg text-ink max-w-[38em]">{example.description}</p>
+            <div>
+              <h2 className="text-title">どんな工事をしたか</h2>
+              <p className="mt-3 text-lead text-ink leading-relaxed max-w-[38em]">{example.description}</p>
             </div>
 
             {example.features.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-3 py-[var(--space-xl)] border-t-hair border-paper-3">
-                <h2 className="md:col-span-4 text-title max-w-none">使用塗料・特徴</h2>
-                <ul role="list" className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
-                  {example.features.map((feat) => (
-                    <li key={feat} className="flex items-start gap-2 text-lg text-ink">
-                      <i className="ri-check-line text-xl leading-[1.6]" aria-hidden="true"></i>
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
+              <div>
+                <h2 className="text-title">使用塗料・仕様</h2>
+                <WorkFeatures features={example.features} className="mt-3" />
               </div>
             )}
 
             {example.testimonial && (
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-3 py-[var(--space-xl)] border-t-hair border-paper-3">
-                <h2 className="md:col-span-4 text-title max-w-none">お客様の声</h2>
-                <blockquote className="md:col-span-8 m-0 border-l-2 border-ink pl-6">
-                  <p className="text-lead text-ink max-w-[34em]">{example.testimonial}</p>
-                </blockquote>
+              <div>
+                <h2 className="text-title">お客様の声</h2>
+                <div className="mt-5">
+                  <WorkVoice example={example} large />
+                </div>
               </div>
             )}
           </div>
+
+          {/* 工事データ・位置図・連絡 */}
+          <aside className="lg:col-span-4 min-w-0">
+            <div className="lg:sticky lg:top-[108px] rounded-card bg-plate border border-paper-3 p-5 md:p-6 flex flex-col gap-5">
+              <WorkLocator location={example.location} />
+              <WorkFacts example={example} />
+              <div className="grid gap-3 pt-2">
+                <a href="/#simulation" className="btn btn--primary w-full">
+                  <i className="ri-calculator-line text-xl" aria-hidden="true"></i>
+                  うちの場合の概算を見る
+                </a>
+                <a href="tel:029-886-7913" className="btn btn--secondary w-full font-figure">
+                  <i className="ri-phone-fill text-xl" aria-hidden="true"></i>
+                  029-886-7913
+                </a>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
       {related.length > 0 && (
-        <section>
-          <div className="container pb-[var(--section-gap)]">
-            <div className="border-t-bar border-ink pt-[var(--space-xl)] grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
-              <h2 className="md:col-span-8 text-section">同じカテゴリの施工事例</h2>
-              <div className="md:col-span-4 md:justify-self-end">
-                <Link href="/works" className="btn btn--secondary">
-                  すべての施工事例を見る
-                </Link>
-              </div>
+        <section className="bg-paper-2 border-t border-paper-3">
+          <div className="container py-[var(--space-2xl)]">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h2 className="text-title">同じ工事内容の事例</h2>
+              <Link href="/works" className="inline-flex items-center gap-1 text-sm font-bold no-underline hover:text-accent">
+                施工事例をすべて見る
+                <i className="ri-arrow-right-line" aria-hidden="true"></i>
+              </Link>
             </div>
-            <ul role="list" className="mt-[var(--space-xl)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+            <ul role="list" className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {related.map((rel) => (
-                <li key={rel.id} className="min-w-0">
+                <li key={rel.id}>
                   <a
                     href={`/works/${rel.id}`}
-                    onClick={(e) => {
-                      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                      e.preventDefault();
-                      router.push(`/works/${rel.id}`);
-                    }}
-                    className="group block no-underline"
+                    className="group flex gap-4 items-center h-full rounded-card bg-plate border border-paper-3 p-4 no-underline text-ink hover:border-ink"
                   >
-                    <BeforeAfterPhoto
-                      example={rel}
-                      side="after"
-                      slot={`related-${rel.id}`}
-                      title={rel.title}
-                      className="aspect-[4/3]"
-                    />
-                    <h3 className="mt-4 text-title max-w-none group-hover:underline">{rel.title}</h3>
-                    <p className="label mt-1">{rel.category}</p>
+                    <WorkLocator location={rel.location} className="w-[96px] shrink-0" />
+                    <span className="min-w-0">
+                      <span className="block text-xs font-bold text-accent">{rel.category}</span>
+                      <span className="block mt-1 font-display font-bold leading-snug group-hover:underline">{rel.title}</span>
+                    </span>
                   </a>
                 </li>
               ))}
