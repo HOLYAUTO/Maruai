@@ -44,16 +44,16 @@ export default async function PostDetail({ params }: { params: Promise<{ slug: s
       <JsonLd data={articleJsonLd} />
       <Breadcrumbs items={[{ name: 'ホーム', url: '/' }, { name: 'コラム', url: '/blog' }, { name: p.title, url: `/blog/${slug}` }]} />
       <article className="bg-paper">
-        <div className="container pt-[var(--space-2xl)] pb-[calc(var(--section-gap-l)/2)]">
-          <header className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-end border-b-bar border-ink pb-[var(--space-xl)]">
-            <h1 className="md:col-span-8 text-display-s">{p.title}</h1>
+        <div className="container pt-[var(--space-2xl)] pb-[var(--section-gap)]">
+          <header className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-end border-b border-paper-3 pb-[var(--space-xl)]">
+            <div className="md:col-span-8"><p className="eyebrow">Column</p><h1 className="mt-4 text-[clamp(1.75rem,2.2vw+1rem,2.75rem)]">{p.title}</h1></div>
             <p className="label md:col-span-4 md:text-right">
               <time dateTime={p.published_at} className="font-figure text-base tabular-nums">
                 {new Date(p.published_at).toLocaleDateString('ja-JP')}
               </time>
             </p>
           </header>
-          <div className="mt-[var(--space-xl)] max-w-[38em] text-base text-ink leading-[1.75] whitespace-pre-wrap">{p.body}</div>
+          <div className="mt-[var(--space-xl)] max-w-[40em] text-base text-ink leading-[1.95] whitespace-pre-wrap">{p.body}</div>
         </div>
       </article>
     </main>

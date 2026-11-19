@@ -126,7 +126,7 @@ export default function PrivacyPage() {
 
       <section className="bg-paper pb-[calc(var(--section-gap)/2)]">
         <div className="container">
-          <div className="divide-y divide-paper-3 border-b-hair border-paper-3">
+          <div className="rounded-card bg-plate border border-paper-3 px-6 md:px-10 divide-y divide-paper-3">
             {SECTIONS.map((s) => (
               <section key={s.title} className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-3 py-8 md:py-10">
                 <h2 className="md:col-span-4 text-title max-w-none">{s.title}</h2>
@@ -136,7 +136,7 @@ export default function PrivacyPage() {
 
             <section className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-3 py-8 md:py-10">
               <h2 className="md:col-span-4 text-title max-w-none">10. お問い合わせ窓口</h2>
-              <dl className="md:col-span-6 md:col-start-6 text-base text-ink-2 rule-bar divide-y divide-paper-3">
+              <dl className="md:col-span-6 md:col-start-6 text-base text-ink-2 rounded-control bg-paper-2 px-4 divide-y divide-paper-3">
                 <div className="grid grid-cols-[6em_minmax(0,1fr)] gap-x-4 py-3">
                   <dt className="font-bold text-ink">事業者名</dt>
                   <dd>株式会社 丸愛装業</dd>

@@ -7,13 +7,14 @@ export function Breadcrumbs({ items }: { items: { name: string; url: string }[] 
   return (
     <>
       <JsonLd data={breadcrumbJsonLd(items)} />
+      <div className="bg-paper-2">
       <nav aria-label="パンくずリスト" className="container pt-[var(--space-lg)]">
         <ol className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm text-ink-2">
           {items.map((it, i) => (
             <li key={it.url} className="flex items-baseline gap-x-2 min-w-0">
-              {i > 0 && <span aria-hidden="true">/</span>}
+              {i > 0 && <i className="ri-arrow-right-s-line text-muted" aria-hidden="true"></i>}
               {i < items.length - 1 ? (
-                <Link href={it.url} className="link whitespace-nowrap">
+                <Link href={it.url} className="no-underline hover:underline whitespace-nowrap">
                   {it.name}
                 </Link>
               ) : (
@@ -23,6 +24,7 @@ export function Breadcrumbs({ items }: { items: { name: string; url: string }[] 
           ))}
         </ol>
       </nav>
+      </div>
     </>
   );
 }

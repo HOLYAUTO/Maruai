@@ -44,7 +44,7 @@ export function BeforeAfterPair({ example, priority = false }: { example: Exampl
 export function CompletionSeal({ period }: { period: string }) {
   const { ym, days } = parsePeriod(period);
   return (
-    <span className="inline-flex items-center gap-2">
+    <span className="inline-flex flex-wrap items-center gap-2">
       <span className="inline-flex flex-col items-center justify-center rounded-[6px] border-2 border-accent text-accent px-2 py-1 leading-none -rotate-2">
         <span className="font-figure font-bold text-[1.0625rem] tabular-nums">{ym}</span>
         <span className="mt-0.5 text-[0.625rem] font-bold tracking-[0.3em] pl-[0.3em]">完工</span>
@@ -161,8 +161,8 @@ export default function ExampleGrid({
             <li key={ex.id}>
               <article className="rounded-card bg-plate border border-paper-3 p-5 md:p-7 grid grid-cols-1 md:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[220px_minmax(0,1fr)_300px] gap-x-8 gap-y-6">
                 {/* 位置図 */}
-                <div className="flex md:flex-col gap-4 items-start">
-                  <WorkLocator location={ex.location} className="w-[140px] md:w-full shrink-0" />
+                <div className="flex flex-wrap md:flex-col gap-4 items-start">
+                  <WorkLocator location={ex.location} className="w-[120px] sm:w-[140px] md:w-full shrink-0" />
                   <div className="md:hidden">
                     <CompletionSeal period={ex.period} />
                   </div>
