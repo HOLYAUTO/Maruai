@@ -22,8 +22,9 @@ export default async function WorksSection() {
         </div>
 
         <ul role="list" className="mt-[var(--space-2xl)] grid grid-cols-1 md:grid-cols-3 gap-6">
-          {works.map((ex) => (
-            <li key={ex.id}>
+          {/* スマホは2件、タブレット以上は3件 */}
+          {works.map((ex, i) => (
+            <li key={ex.id} className={i >= 2 ? "hidden md:block" : undefined}>
               <Link
                 href={`/works/${ex.id}`}
                 className="group flex flex-col h-full rounded-card bg-plate border border-paper-3 p-5 no-underline text-ink hover:border-ink hover:shadow-card transition-shadow"
