@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { PAINT_FRAG, PAINT_VERT } from './paintShader';
+import { PAINT_FRAG, PAINT_VERT, planStrokes } from './paintShader';
 
 /**
- * 初回表示のオープニング：くすんだ古いモルタル壁を、刷毛で新しい塗料に塗り替える。
- * 塗り終わると浅い光が一度だけ面を流れて刷毛目が浮かび、社名が現れる。
+ * 初回表示のオープニング：くすんだ古いモルタル壁を、職人が刷毛で新しい塗料に塗り替える。
+ * 1本ずつ太さ・角度・筆圧の違うストロークで塗り、最後に仕上げの一刷毛。塗り終わると社名が現れる。
  * 最後は社名がゆっくり浮き上がりながら、塗った面が刷毛目に沿って透けてトップページが見えてくる。
  *
  * - 描画は WebGL のシェーダー（paintShader.ts）。WebGL が使えない環境では表示しない
@@ -13,10 +13,7 @@ import { PAINT_FRAG, PAINT_VERT } from './paintShader';
  */
 const STORAGE_KEY = 'maruai-intro-seen';
 
-// タイムライン（秒）
-const FIRST = 0.25; // 壁を一瞬見せてから塗り始める
-const GAP = 0.3; // ストロークの間隔（重ねて途切れさせない）
-const DUR = 0.72; // 1ストロークの長さ
+// タイムライン（秒）。塗りの時間配分は paintShader.ts の planStrokes
 const LOGO_HOLD = 1.3; // 社名が出てから退場が始まるまで
 const OUT_DUR = 2.0; // 塗りが透けきるまで（社名の浮き上がりは globals.css の .pi.is-out .pi-name で 2.2s）
 const REMOVE_AFTER = 2.3; // 退場開始から取り外すまで
@@ -36,7 +33,8 @@ export function PaintIntro() {
     }
     const canvas = canvasRef.current;
     const gl = canvas?.getContext('webgl', { antialias: false, alpha: true, premultipliedAlpha: true, powerPreference: 'high-performance' });
-    if (!canvas || !gl) {
+    // 刷毛目の陰影に画面上の微分を使う（ほぼ全端末で使えるが、無ければ出さない）
+    if (!canvas || !gl || !gl.getExtension('OES_standard_derivatives')) {
       setPhase('done');
       return;
     }
@@ -85,27 +83,15 @@ export function PaintIntro() {
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     const U = (n: string) => gl.getUniformLocation(prog, n);
 
-    // --- ストローク配置：画面の高さに応じて3〜5本、左右交互に ---
-    const n = Math.min(5, Math.max(3, Math.round(vh / 250)));
-    const pitch = vh / n;
-    let seed = 7;
-    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-    const s0: number[] = [];
-    const s1: number[] = [];
-    for (let i = 0; i < 5; i++) {
-      // 中心y, 半幅, 向き, 開始時刻（僅かに揺らして機械的なリズムを避ける）
-      s0.push(pitch * (i + 0.5), pitch * 0.92, i % 2 === 0 ? 1 : -1, FIRST + i * GAP + (rnd() - 0.5) * 0.06);
-      // 傾き, うねり幅, うねり周期, 乱数種
-      s1.push((rnd() - 0.5) * 0.03, 3 + rnd() * 5, (Math.PI * 2) / (vw * (0.9 + rnd() * 0.8)), rnd() * 100);
-    }
-    const paintEnd = FIRST + (n - 1) * GAP + DUR;
+    // --- ストローク配置：職人の塗り方（太さ・角度・弧・筆圧・間合いが1本ずつ違う） ---
+    const plan = planStrokes(vw, vh);
+    const paintEnd = plan.paintEnd;
     gl.uniform2f(U('uRes'), vw, vh);
     gl.uniform1f(U('uDpr'), dpr);
-    gl.uniform1i(U('uCount'), n);
-    gl.uniform4fv(U('uS0'), s0);
-    gl.uniform4fv(U('uS1'), s1);
-    gl.uniform1f(U('uDur'), DUR);
-    gl.uniform1f(U('uSheen'), paintEnd - 0.1);
+    gl.uniform1i(U('uCount'), plan.count);
+    gl.uniform4fv(U('uA'), plan.a);
+    gl.uniform4fv(U('uB'), plan.b);
+    gl.uniform4fv(U('uC'), plan.c);
     gl.uniform3f(U('uPaint'), PAINT_RGB[0] * 1.05, PAINT_RGB[1] * 1.05, PAINT_RGB[2] * 1.05);
     gl.uniform1f(U('uOutDur'), OUT_DUR);
     const uTime = U('uTime');
