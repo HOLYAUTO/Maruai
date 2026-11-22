@@ -377,19 +377,24 @@
   .psim .total .yen{font-size:3.5rem}
   .psim .sbtn{padding:1em 1em;font-size:1rem}
 
-  /* ===== オープニング：古い壁を刷毛で塗り替える → 光が流れる → 社名 → フェード（components/PaintIntro.tsx） =====
-     モーション言語：落ち着いた上質寄り。入場 cubic-bezier(.22,1,.36,1)、退場 cubic-bezier(.4,0,.2,1)。主役は塗りだけ */
-  .pi{position:fixed;inset:0;z-index:200;background:#D5CFC3;cursor:pointer;transition:opacity .7s cubic-bezier(.4,0,.2,1)}
+  /* ===== オープニング：古い壁を刷毛で塗り替える → 光が流れる → 社名 → 社名が浮き上がり、塗りが透けてページへ
+     （components/PaintIntro.tsx / paintShader.ts）
+     モーション言語：落ち着いた上質寄り。入場・浮き上がりは cubic-bezier(.22,1,.36,1)。主役は塗りだけ */
+  .pi{position:fixed;inset:0;z-index:200;background:#D5CFC3;cursor:pointer}
   .pi:not(.is-js){animation:pi-fallback .6s ease 3.2s forwards}
   @keyframes pi-fallback{to{opacity:0;visibility:hidden}}
-  .pi.is-out{opacity:0;pointer-events:none}
+  .pi.is-js{background:transparent}  /* 以降はキャンバスが全面を描く（透けるのもキャンバス側） */
+  .pi.is-out{pointer-events:none}
   .pi-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   .pi-name{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;
     font-family:var(--font-serif),serif;font-weight:700;color:#F3EEE4;font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.24em;padding-left:.24em;
-    text-shadow:0 1px 0 rgba(0,0,0,.18)}
+    text-shadow:0 1px 0 rgba(0,0,0,.18),0 10px 30px rgba(0,0,0,.18)}
   .pi-name span{display:inline-block;opacity:0;transform:translateY(10px);filter:blur(4px);
     transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1),filter .9s cubic-bezier(.22,1,.36,1);
     transition-delay:calc(var(--i) * 80ms)}
   .pi.is-logo .pi-name span,.pi.is-out .pi-name span{opacity:1;transform:none;filter:none}
+  /* 退場：ゆっくり浮き上がりながら溶けるように消える。ページがはっきり見える前に消え切る（重なって読みにくくならないように） */
+  .pi.is-out .pi-name{transform:translateY(-44px);opacity:0;
+    transition:transform 2.2s cubic-bezier(.22,1,.36,1),opacity 1s cubic-bezier(.4,0,.2,1) .45s}
   html.pi-off .pi{display:none}
   @media(prefers-reduced-motion:reduce){.pi{display:none}}

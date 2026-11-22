@@ -4,7 +4,8 @@ import { PAINT_FRAG, PAINT_VERT } from './paintShader';
 
 /**
  * 初回表示のオープニング：くすんだ古いモルタル壁を、刷毛で新しい塗料に塗り替える。
- * 塗り終わると浅い光が一度だけ面を流れて刷毛目が浮かび、社名を見せてからサイトへ。
+ * 塗り終わると浅い光が一度だけ面を流れて刷毛目が浮かび、社名が現れる。
+ * 最後は社名がゆっくり浮き上がりながら、塗った面が刷毛目に沿って透けてトップページが見えてくる。
  *
  * - 描画は WebGL のシェーダー（paintShader.ts）。WebGL が使えない環境では表示しない
  * - 同一セッションでは2回目以降は表示しない（app/layout.tsx の head スクリプトで描画前に判定）
@@ -16,13 +17,16 @@ const STORAGE_KEY = 'maruai-intro-seen';
 const FIRST = 0.25; // 壁を一瞬見せてから塗り始める
 const GAP = 0.3; // ストロークの間隔（重ねて途切れさせない）
 const DUR = 0.72; // 1ストロークの長さ
-const LOGO_HOLD = 1.15; // 社名が出てから退場まで（退場の長さは globals.css の .pi.is-out）
+const LOGO_HOLD = 1.3; // 社名が出てから退場が始まるまで
+const OUT_DUR = 2.0; // 塗りが透けきるまで（社名の浮き上がりは globals.css の .pi.is-out .pi-name で 2.2s）
+const REMOVE_AFTER = 2.3; // 退場開始から取り外すまで
 const PAINT_RGB: [number, number, number] = [0x27 / 255, 0x41 / 255, 0x4f / 255]; // --brand-deep
 
 export function PaintIntro() {
   const [phase, setPhase] = useState<'paint' | 'logo' | 'out' | 'done'>('paint');
   const [js, setJs] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const outAt = useRef<number | null>(null); // 退場を始めた時刻（performance.now）
 
   useEffect(() => {
     // 表示済み、または読み込みが遅く待たせてしまう場合は出さない
@@ -31,7 +35,7 @@ export function PaintIntro() {
       return;
     }
     const canvas = canvasRef.current;
-    const gl = canvas?.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' });
+    const gl = canvas?.getContext('webgl', { antialias: false, alpha: true, premultipliedAlpha: true, powerPreference: 'high-performance' });
     if (!canvas || !gl) {
       setPhase('done');
       return;
@@ -90,7 +94,7 @@ export function PaintIntro() {
     const s1: number[] = [];
     for (let i = 0; i < 5; i++) {
       // 中心y, 半幅, 向き, 開始時刻（僅かに揺らして機械的なリズムを避ける）
-      s0.push(pitch * (i + 0.5), pitch * 0.8, i % 2 === 0 ? 1 : -1, FIRST + i * GAP + (rnd() - 0.5) * 0.06);
+      s0.push(pitch * (i + 0.5), pitch * 0.92, i % 2 === 0 ? 1 : -1, FIRST + i * GAP + (rnd() - 0.5) * 0.06);
       // 傾き, うねり幅, うねり周期, 乱数種
       s1.push((rnd() - 0.5) * 0.03, 3 + rnd() * 5, (Math.PI * 2) / (vw * (0.9 + rnd() * 0.8)), rnd() * 100);
     }
@@ -103,18 +107,22 @@ export function PaintIntro() {
     gl.uniform1f(U('uDur'), DUR);
     gl.uniform1f(U('uSheen'), paintEnd - 0.1);
     gl.uniform3f(U('uPaint'), PAINT_RGB[0] * 1.05, PAINT_RGB[1] * 1.05, PAINT_RGB[2] * 1.05);
+    gl.uniform1f(U('uOutDur'), OUT_DUR);
     const uTime = U('uTime');
+    const uOut = U('uOut');
 
     let raf = 0;
     const t0 = performance.now();
-    const endT = paintEnd + LOGO_HOLD + 0.7;
     const frame = () => {
-      const t = (performance.now() - t0) / 1000; // setTimeout と同じ時計で進める
+      const now = performance.now(); // setTimeout と同じ時計で進める
+      const t = (now - t0) / 1000;
+      const out = outAt.current === null ? 1e6 : (outAt.current - t0) / 1000;
       gl.uniform1f(uTime, t);
+      gl.uniform1f(uOut, out);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-      if (t < endT) raf = requestAnimationFrame(frame);
+      if (t < out + OUT_DUR) raf = requestAnimationFrame(frame);
     };
-    raf = requestAnimationFrame(frame);
+    frame(); // 最初の1枚はすぐ描く（下のページが一瞬見えないように）
 
     const timers = [
       window.setTimeout(() => setPhase((p) => (p === 'paint' ? 'logo' : p)), (paintEnd - 0.1) * 1000),
@@ -131,10 +139,11 @@ export function PaintIntro() {
     };
   }, []);
 
-  // 退場（CSS の opacity トランジション .7s）が終わったら取り外す
+  // 退場：塗りが透け、社名が浮き上がり終わったら取り外す
   useEffect(() => {
     if (phase !== 'out') return;
-    const id = window.setTimeout(() => setPhase('done'), 750);
+    if (outAt.current === null) outAt.current = performance.now();
+    const id = window.setTimeout(() => setPhase('done'), REMOVE_AFTER * 1000);
     return () => clearTimeout(id);
   }, [phase]);
 

@@ -1,5 +1,6 @@
 // オープニング用フラグメントシェーダー：古いモルタル壁に、刷毛で新しい塗料を塗る。
 // 塗料は高さを持たせてライティングし、毛筋の凹凸・縁の盛り上がり・濡れたツヤ・壁への影を出す。
+// かすれは「壁の凹凸 × 毛筋 × 塗料の残り」で決まる。退場時は刷毛目に沿って薄いところから透けていく。
 export const PAINT_FRAG = `
 precision highp float;
 uniform vec2 uRes;      // CSS px
@@ -11,6 +12,8 @@ uniform vec4 uS1[5];    // tilt, waveA, waveF, seed
 uniform float uDur;
 uniform vec3 uPaint;
 uniform float uSheen;
+uniform float uOut;      // 透けはじめる時刻（それまでは大きな値）
+uniform float uOutDur;
 
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p){
@@ -22,8 +25,8 @@ float fbm(vec2 p){ float v=0.0,a=0.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.
 
 float easeStroke(float p){ p=clamp(p,0.0,1.0); return mix(p*p, 1.0-pow(1.0-p,3.0), p); }
 
-// ストローク1本：x = coverage, y = height
-vec2 stroke(vec2 q, int i){
+// ストローク1本：x = 塗れているか（くっきり）, y = 高さ, z = 高さを重ねる重み（なだらか）
+vec3 stroke(vec2 q, float sub, int i){
   vec4 a = uS0[0], b = uS1[0];
   if(i==1){a=uS0[1];b=uS1[1];} else if(i==2){a=uS0[2];b=uS1[2];} else if(i==3){a=uS0[3];b=uS1[3];} else if(i==4){a=uS0[4];b=uS1[4];}
   float cy=a.x, hw=a.y, dir=a.z, st=a.w, tilt=b.x, wA=b.y, wF=b.z, seed=b.w;
@@ -40,17 +43,22 @@ vec2 stroke(vec2 q, int i){
   float lag = noise(vec2(v*3.0, seed)) * 34.0 + noise(vec2(v*26.0, seed+3.0)) * 6.0 + noise(vec2(v*140.0, seed+5.0)) * 7.0 + v*v*46.0;
   float ahead = head - lag - u;                                     // >0 なら塗れている
   float cov = smoothstep(0.0, 1.2, ahead);
-  float aa = 1.0 / hw;   // 1px 分の幅（縁をくっきり、透けさせない）
-  // 上下の縁：うねり＋端のかすれ（筆の終わりほどかすれる）
-  float edgeN = (noise(vec2(u*0.008, seed+9.0)) - 0.5) * 0.10;
-  float along = clamp(u / len, 0.0, 1.0);
-  float body = 1.0 - smoothstep(0.86 - aa, 0.86 + aa, av + edgeN);
-  // 縁のかすれ：毛1本ずつ、塗れているか塗れていないか（半透明にしない）
-  float streak = noise(vec2(u*0.006 + seed, v*70.0)) * 0.7 + noise(vec2(u*0.002, v*18.0)) * 0.3;
-  float dryZone = smoothstep(0.80, 0.86, av + edgeN);
-  float dryT = mix(0.42, 0.68, along) + (av - 0.86) * 2.2;
-  float bristleEdge = smoothstep(dryT - 0.015, dryT + 0.015, streak) * (1.0 - smoothstep(1.02 - aa, 1.02 + aa, av));
-  float m = max(body, bristleEdge * dryZone);
+  float aa = 1.0 / hw;   // 1px 分の幅
+  // 縁のうねり（大きな揺れ＋小さな揺れ）
+  float edgeN = (noise(vec2(u*0.006, seed+9.0)) - 0.5) * 0.12 + (noise(vec2(u*0.03, seed+4.0)) - 0.5) * 0.04;
+  float e = av + edgeN;
+  float along = clamp(u / len, 0.0, 1.0);      // 0 = 塗料たっぷり → 1 = 残り少ない
+  float edgeT = smoothstep(0.5, 1.06, e);      // 0 = 中央 → 1 = 外縁
+  // かすれ：長く細い毛筋＋細かな毛＋下地（モルタル）の凹凸。凸部にだけ塗料が乗り、凹部が抜ける
+  float sA = noise(vec2(u*0.0022 + seed, v*48.0));
+  float sB = noise(vec2(u*0.009 + seed*1.7, v*150.0));
+  float field = (sA*0.5 + sB*0.22 + sub*0.28 - 0.5) * 2.4 + 0.5;   // 値ノイズは分布が狭いのでコントラストを広げる
+  float thr = mix(-0.6, 1.15, edgeT) + along*0.25*edgeT + smoothstep(0.85, 1.0, along)*0.28;
+  float outer = 1.0 - smoothstep(1.03 - aa, 1.03 + aa, e);
+  float m = smoothstep(thr - 0.02, thr + 0.02, field) * outer;
+  // 高さは境目をなだらかに重ねる（急な段差に光が当たると白い傷に見えるため）
+  float mSoft = smoothstep(thr - 0.35, thr + 0.35, field) * outer;
+  float covSoft = cov * mSoft;
   cov *= m;
   // 高さ：毛筋の凹凸、縁に寄った塗料の盛り上がり、刷毛の先の溜まり
   // 外壁塗料は流れて平滑になる：刷毛跡はなだらかで幅広く、細かい筋はごく僅か
@@ -60,17 +68,19 @@ vec2 stroke(vec2 q, int i){
     + 0.025 * noise(vec2(u*0.015, v*42.0));
   h += 0.22 * exp(-pow((av - 0.80)/0.07, 2.0));
   h += 0.45 * exp(-max(ahead, 0.0)/16.0) * (1.0 - av*0.6);
-  h *= mix(1.0, 0.7, dryZone);
-  return vec2(cov, h);
+  h += sA * 0.04 * edgeT;            // かすれ部分の毛筋の凹凸（強いと光って傷に見える）
+  h *= mix(1.0, 0.62, edgeT);        // 縁ほど塗膜が薄い
+  return vec3(cov, h, covSoft);
 }
 
 // 全ストロークを重ねた結果：x = coverage, y = height
 vec2 paint(vec2 q){
+  float sub = noise(q*0.9) * 0.6 + noise(q*2.3) * 0.4;   // 下地の凹凸（壁の砂目と同じ）
   float cov = 0.0, h = 0.0;
   for(int i=0;i<5;i++){
     if(i >= uCount) break;
-    vec2 s = stroke(q, i);
-    h = mix(h, s.y, s.x);
+    vec3 s = stroke(q, sub, i);
+    h = mix(h, s.y, s.z);
     cov = max(cov, s.x);
   }
   return vec2(cov, h);
@@ -107,7 +117,7 @@ void main(){
   float spec = pow(nh, 36.0);
   float glint = pow(nh, 220.0);
   vec3 pc = uPaint * (0.80 + 0.28*diff);
-  pc += vec3(0.80, 0.88, 0.95) * (spec*0.16 + glint*0.09);
+  pc += vec3(0.80, 0.88, 0.95) * (spec*0.14 + glint*0.05);
   pc *= 0.97 + 0.06*noise(q*0.01 + 11.0);
   // 見せ場：社名が出る頃、浅い角度の光が塗りたての面を一度だけ流れ、刷毛目が浮かぶ
   vec2 uvs = q / uRes;
@@ -127,7 +137,15 @@ void main(){
   vec2 uv = q / uRes;
   col *= 1.0 - 0.18 * pow(length((uv - 0.5) * vec2(1.0, 0.8)), 2.2);
   col += (hash(q + fract(uTime)) - 0.5) * 0.012;
-  gl_FragColor = vec4(col, 1.0);
+
+  // ---- 退場：全体がじわっと透けていく。刷毛目に沿って薄いところが先に、厚いところが後に ----
+  float op = clamp((uTime - uOut) / uOutDur, 0.0, 1.0);
+  float g = noise(vec2(q.x*0.006, q.y*0.13)) * 0.40
+          + noise(vec2(q.x*0.02, q.y*0.45)) * 0.22
+          + clamp((c0.y - 0.3) * 0.5, 0.0, 0.38);
+  float opE = pow(op, 1.6);   // 前半はゆっくり（社名が浮き上がって消えるのを待つ）、後半で一気に
+  float alpha = 1.0 - smoothstep(0.0, 1.0, opE * 1.28 - g * 0.28);
+  gl_FragColor = vec4(col * alpha, alpha);
 }`;
 
 export const PAINT_VERT = `attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }`;
