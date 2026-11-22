@@ -178,7 +178,7 @@ export function FloatingMaruai() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
           transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="block fixed bottom-20 right-2 md:bottom-6 md:right-4 lg:right-6 z-40"
+          className="block fixed bottom-[calc(80px+env(safe-area-inset-bottom))] right-2 md:right-4 lg:bottom-6 lg:right-6 z-40"
         >
           <div className="flex items-end gap-2 md:gap-3 flex-row-reverse">
             <motion.div

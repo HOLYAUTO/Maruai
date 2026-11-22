@@ -1,3 +1,4 @@
+import { MobileCtaBar } from '@/components/site/MobileCtaBar';
 import type { Metadata } from 'next';
 import { Shippori_Mincho_B1, Zen_Kaku_Gothic_New } from 'next/font/google';
 import 'remixicon/fonts/remixicon.css';
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         {children}
         <SiteFooter />
+        <MobileCtaBar />
         <FloatingMaruai />
         <JsonLd data={localBusinessJsonLd} />
       </body>
