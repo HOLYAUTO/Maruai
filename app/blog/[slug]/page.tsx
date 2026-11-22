@@ -93,7 +93,7 @@ export default async function PostDetail({ params }: { params: Promise<{ slug: s
               <i className="ri-arrow-right-s-line mx-1 align-middle text-muted" aria-hidden="true"></i>
               <Link href="/blog" className="no-underline hover:underline">コラム</Link>
             </nav>
-            <div className="mt-8 max-w-[44em]">
+            <div className="mt-6 md:mt-8 max-w-[44em]">
               <p className="eyebrow">Column</p>
               <h1 className="mt-4 max-w-none text-[clamp(1.75rem,2.2vw+1rem,2.75rem)] leading-snug">{p.title}</h1>
               <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">

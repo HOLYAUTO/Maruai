@@ -18,7 +18,7 @@ export default function ExampleDetail({ example, related }: { example: Example; 
             <i className="ri-arrow-right-s-line mx-1 align-middle text-muted" aria-hidden="true"></i>
             <Link href="/works" className="no-underline hover:underline">施工事例</Link>
           </nav>
-          <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
+          <div className="mt-6 md:mt-8 flex flex-wrap items-end justify-between gap-4 md:gap-6">
             <div>
               <p className="eyebrow">Works</p>
               <p className="mt-4 text-sm font-bold text-accent">{example.category}</p>

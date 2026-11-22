@@ -17,8 +17,8 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="bg-paper-2 border-b border-paper-3 mb-[var(--space-2xl)]">
-      <div className="container pt-[var(--space-3xl)] pb-[var(--space-2xl)]">
+    <section className="bg-paper-2 border-b border-paper-3 mb-[var(--space-xl)] md:mb-[var(--space-2xl)]">
+      <div className="container pt-[var(--space-xl)] md:pt-[var(--space-3xl)] pb-[var(--space-xl)] md:pb-[var(--space-2xl)]">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
           <div className="md:col-span-7">
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
