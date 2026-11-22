@@ -85,10 +85,15 @@ export async function getCity(slug: string): Promise<City | null> {
 }
 
 /* ---------- works ---------- */
-export async function getWorksByCity(slug: string, service?: string): Promise<Work[]> {
-  let q = supabase.from('works').select('*').eq('city_slug', slug);
-  if (service) q = q.eq('service', service);
-  const { data } = await q.order('created_at', { ascending: false });
+/** その市町の施工事例。works.location（例: 茨城県阿見町）に市町名が入っているものを返す */
+export async function getWorksByCity(cityName: string): Promise<Work[]> {
+  const { data } = await supabase
+    .from('works')
+    .select('*')
+    .eq('published', true)
+    .ilike('location', `%${cityName}%`)
+    .order('sort', { ascending: true })
+    .order('created_at', { ascending: false });
   return data ?? [];
 }
 export async function getRecentWorks(limit = 6): Promise<Work[]> {

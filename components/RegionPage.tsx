@@ -1,12 +1,11 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getCities, getCity, getWorksByCity, getVoicesByCity } from '@/lib/content';
+import { getCities, getCity, getWorksByCity, getVoicesByCity, workToExample } from '@/lib/content';
+import { CompletionSeal } from './examples/ExampleGrid';
 import { serviceAreaJsonLd } from '@/lib/seo';
 import { JsonLd } from './JsonLd';
 import { Breadcrumbs } from './Breadcrumbs';
 import WorkLocator from './examples/WorkLocator';
-import { isRealPhoto } from '@/lib/examples';
 
 const LINE = 'https://line.me/ti/p/UxXZqXMSWE';
 const TEL = 'tel:0298867913';
@@ -40,7 +39,7 @@ export async function RegionPage({
   if (!c) notFound();
 
   const [works, voices, cities] = await Promise.all([
-    getWorksByCity(citySlug),
+    getWorksByCity(c.name),
     getVoicesByCity(citySlug),
     getCities(),
   ]);
@@ -101,7 +100,7 @@ export async function RegionPage({
         </div>
       </section>
 
-      {/* 施工事例：Grid（3列、写真は白黒、上端に墨の太線） */}
+      {/* 施工事例：工事の記録のカード（3列） */}
       <section className="bg-paper py-[calc(var(--section-gap)/2)]">
         <div className="container">
           <p className="eyebrow">Works</p>
@@ -109,35 +108,26 @@ export async function RegionPage({
           {works.length === 0 ? (
             <p className="mt-6 rounded-card border border-dashed border-paper-3 bg-paper-2 px-5 py-4 text-sm text-ink-2">{c.name}での施工事例は準備中です。お問い合わせいただければ、近隣エリアの事例をご紹介します。</p>
           ) : (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {works.map((w) => (
-                <article key={w.id} className="flex flex-col rounded-card bg-plate border border-paper-3 p-5">
-                  {(isRealPhoto(w.before_url) || isRealPhoto(w.after_url)) && (
-                  <div className="grid grid-cols-2 gap-2">
-                    <figure className="photo relative m-0 aspect-square" data-slot="before">
-                      {isRealPhoto(w.before_url) ? (
-                        <Image src={w.before_url} alt={`${c.name} ${w.service} 施工前`} width={400} height={400} />
-                      ) : (
-                        <span className="absolute inset-0 flex items-center justify-center label">施工前</span>
-                      )}
-                    </figure>
-                    <figure className="photo relative m-0 aspect-square" data-slot="after">
-                      {isRealPhoto(w.after_url) ? (
-                        <Image src={w.after_url} alt={`${c.name} ${w.service} 施工後`} width={400} height={400} />
-                      ) : (
-                        <span className="absolute inset-0 flex items-center justify-center label">施工後</span>
-                      )}
-                    </figure>
-                  </div>
-                  )}
-                  <div>
-                    {w.service && <p className="text-sm font-bold text-accent">{w.service}</p>}
-                    <h3 className="mt-1 text-[1.1875rem]"><Link href={`/works/${w.id}`} className="no-underline hover:underline">{w.title}</Link></h3>
-                    <p className="mt-1 text-sm text-ink-2">{[w.paint, w.built_years ? `築${w.built_years}年` : null].filter(Boolean).join('・')}</p>
-                  </div>
-                </article>
+            <ul role="list" className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {works.map(workToExample).map((ex) => (
+                <li key={ex.id}>
+                  <Link
+                    href={`/works/${ex.id}`}
+                    className="group flex flex-col h-full rounded-card bg-plate border border-paper-3 p-5 no-underline text-ink hover:border-ink hover:shadow-card transition-shadow"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-sm font-bold text-accent">{ex.category}</span>
+                      <CompletionSeal period={ex.period} />
+                    </div>
+                    <h3 className="mt-3 text-[1.25rem] leading-snug group-hover:underline">{ex.title}</h3>
+                    <p className="mt-2 text-sm text-ink-2 leading-relaxed line-clamp-3">{ex.description}</p>
+                    <p className="mt-auto pt-4 text-xs text-ink-2">
+                      延床 {ex.area}{ex.features[0] ? `・${ex.features[0]}` : ''}
+                    </p>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </div>
       </section>
