@@ -56,7 +56,13 @@ export function PaintIntro() {
       ))}
 
       <div className="pi-logo">
-        <div className="pi-name">丸愛装業</div>
+        <div className="pi-name">
+          {[...'丸愛装業'].map((c, i) => (
+            <span key={i} style={{ ['--i' as string]: i }}>
+              {c}
+            </span>
+          ))}
+        </div>
         <svg className="pi-brush" viewBox="0 0 300 40" preserveAspectRatio="none">
           <defs>
             <filter id="pi-rough" x="-5%" y="-40%" width="110%" height="180%">
@@ -83,14 +89,16 @@ function Roller() {
           <stop offset="1" stopColor="#1d3340" />
         </linearGradient>
       </defs>
-      {/* 柄（塗った側に伸びる） */}
-      <path d="M70 194 Q70 199 62 196 L40 150" fill="none" stroke="#B8BEC4" strokeWidth="4" strokeLinecap="round" />
-      <path d="M41 152 L12 106" stroke="#C8B393" strokeWidth="13" strokeLinecap="round" />
-      <path d="M41 152 L12 106" stroke="#a8946f" strokeWidth="13" strokeLinecap="round" strokeDasharray="1 9" />
-      {/* ローラー本体 */}
-      <rect x="66" y="2" width="8" height="196" rx="3" fill="#9aa2a9" />
-      <rect x="52" y="10" width="36" height="180" rx="9" fill="url(#pi-nap)" />
-      <path d="M60 18 V182 M67 14 V186 M78 16 V184" stroke="rgba(255,255,255,.12)" strokeWidth="1.5" />
+      <g className="pi-bob">
+        {/* 柄（塗った側に伸びる） */}
+        <path d="M70 194 Q70 199 62 196 L40 150" fill="none" stroke="#B8BEC4" strokeWidth="4" strokeLinecap="round" />
+        <path d="M41 152 L12 106" stroke="#C8B393" strokeWidth="13" strokeLinecap="round" />
+        <path d="M41 152 L12 106" stroke="#a8946f" strokeWidth="13" strokeLinecap="round" strokeDasharray="1 9" />
+        {/* ローラー本体 */}
+        <rect x="66" y="2" width="8" height="196" rx="3" fill="#9aa2a9" />
+        <rect x="52" y="10" width="36" height="180" rx="9" fill="url(#pi-nap)" />
+        <path d="M60 18 V182 M67 14 V186 M78 16 V184" stroke="rgba(255,255,255,.12)" strokeWidth="1.5" />
+      </g>
     </svg>
   );
 }
