@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
     title: `${c.name}の外壁塗装｜完全自社施工の丸愛装業`,
     description: `${c.name}で外壁塗装・屋根塗装なら丸愛装業。下請けに出さない完全自社施工で、顔の見える職人が最後まで担当。${c.name}での施工事例とお客様の声を掲載。無料診断・お見積りはお気軽に。`,
     alternates: { canonical: `/gaiheki-tosou/${city}` },
-    openGraph: { title: `${c.name}の外壁塗装｜丸愛装業`, url: `/gaiheki-tosou/${city}` },
+    openGraph: { title: `${c.name}の外壁塗装｜丸愛装業`, url: `/gaiheki-tosou/${city}`, images: ['/ogp.jpg'] },
   };
 }
 

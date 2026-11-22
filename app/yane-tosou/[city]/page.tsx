@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
     title: `${c.name}の屋根塗装｜完全自社施工の丸愛装業`,
     description: `${c.name}で屋根塗装なら丸愛装業。遮熱・防水で建物の寿命を延ばします。外壁との同時施工で足場代を効率化。完全自社施工・無料診断。`,
     alternates: { canonical: `/yane-tosou/${city}` },
-    openGraph: { title: `${c.name}の屋根塗装｜丸愛装業`, url: `/yane-tosou/${city}` },
+    openGraph: { title: `${c.name}の屋根塗装｜丸愛装業`, url: `/yane-tosou/${city}`, images: ['/ogp.jpg'] },
   };
 }
 

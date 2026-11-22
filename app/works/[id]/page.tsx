@@ -26,7 +26,7 @@ export async function generateMetadata({
     title: `${ex.title}｜施工事例`,
     description: `${ex.title}（${ex.category}・${ex.location}・${ex.area}）。${ex.description}`,
     alternates: { canonical: `/works/${id}` },
-    openGraph: isRealPhoto(ex.afterImage) ? { images: [ex.afterImage] } : undefined,
+    openGraph: { images: [isRealPhoto(ex.afterImage) ? ex.afterImage : '/ogp.jpg'] },
   };
 }
 
