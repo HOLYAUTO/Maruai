@@ -376,3 +376,34 @@
   .psim .ghint{margin-top:12px;font-size:.9rem;color:var(--ink-soft);background:var(--paper-2);border-radius:8px;padding:10px 13px;line-height:1.7}
   .psim .total .yen{font-size:3.5rem}
   .psim .sbtn{padding:1em 1em;font-size:1rem}
+
+  /* ===== オープニング：ローラーで塗りつぶし → 刷毛でロゴ → 幕が上がる（components/PaintIntro.tsx） ===== */
+  .pi{position:fixed;inset:0;z-index:200;background:var(--paper);overflow:hidden;cursor:pointer;
+    animation:pi-exit .75s cubic-bezier(.76,0,.24,1) 2.45s forwards}
+  .pi.pi-skip{animation-delay:0s;animation-duration:.45s}
+  @keyframes pi-exit{to{transform:translateY(-100%);visibility:hidden}}
+  .pi-band{position:absolute;left:0;width:100%;height:calc(100% / 3 + 2px);overflow:hidden}
+  .pi-band.pi-rev{transform:scaleX(-1)}
+  .pi-stroke{position:absolute;inset:0;transform:translateX(-125%);will-change:transform;
+    animation:pi-roll .7s cubic-bezier(.45,.05,.4,1) var(--d) forwards;
+    background:
+      linear-gradient(180deg,rgba(0,0,0,.22),transparent 7%,transparent 92%,rgba(0,0,0,.18)),
+      repeating-linear-gradient(180deg,rgba(255,255,255,.035) 0 2px,transparent 2px 7px,rgba(0,0,0,.05) 7px 9px,transparent 9px 15px),
+      var(--brand-deep)}
+  @keyframes pi-roll{to{transform:translateX(0)}}
+  /* 塗りの先端（ローラーの芯）を帯の右端に合わせる。59% = viewBox上の芯の中心 x70/120 */
+  .pi-roller{position:absolute;left:100%;top:5%;height:90%;width:auto;aspect-ratio:120/200;transform:translateX(-58.3%);
+    animation:pi-roller-out .3s ease-in calc(var(--d) + .7s) forwards}
+  @keyframes pi-roller-out{to{transform:translateX(calc(-58.3% + 160px));opacity:0}}
+  .pi-logo{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;pointer-events:none}
+  .pi-name{font-family:var(--font-serif),serif;font-weight:800;font-size:clamp(2.2rem,8vw,4.2rem);letter-spacing:.14em;padding-left:.14em;
+    opacity:0;transform:translateY(10px);animation:pi-fade .55s ease-out 1.55s forwards}
+  .pi-brush{width:clamp(200px,40vw,320px);height:26px;margin-top:4px;overflow:visible}
+  .pi-brush path{fill:none;stroke:var(--ember);stroke-width:12;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;
+    animation:pi-draw .5s cubic-bezier(.6,0,.3,1) 1.8s forwards}
+  @keyframes pi-draw{to{stroke-dashoffset:0}}
+  .pi-sub{font-family:var(--font-num),sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.32em;color:#C8B393;margin-top:10px;
+    opacity:0;animation:pi-fade .5s ease-out 2s forwards}
+  @keyframes pi-fade{to{opacity:1;transform:none}}
+  html.pi-off .pi{display:none}
+  @media(prefers-reduced-motion:reduce){.pi{display:none}}

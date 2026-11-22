@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { JsonLd } from '@/components/JsonLd';
+import { PaintIntro } from '@/components/PaintIntro';
 import { localBusinessJsonLd, SITE, IS_PRODUCTION } from '@/lib/seo';
 
 const sans = Zen_Kaku_Gothic_New({
@@ -43,8 +44,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={`${sans.variable} ${serif.variable} ${num.variable}`}>
+    <html lang="ja" className={`${sans.variable} ${serif.variable} ${num.variable}`} suppressHydrationWarning>
+      <head>
+        {/* オープニングは1セッション1回：描画前に判定してチラつきを防ぐ */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "try{if(sessionStorage.getItem('maruai-intro-seen'))document.documentElement.classList.add('pi-off')}catch(e){}",
+          }}
+        />
+      </head>
       <body>
+        <PaintIntro />
         <Header />
         <main>{children}</main>
         <Footer />
