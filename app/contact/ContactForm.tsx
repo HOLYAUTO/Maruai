@@ -1,38 +1,26 @@
 'use client';
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { checkContact, sendContact } from '@/lib/sendContact';
+import { FormBadge as Badge } from '@/components/FormBadge';
 
 // 入力欄は globals.css の .field
 const inputClass = 'field mt-2 block';
 
-function Badge({ required }: { required?: boolean }) {
-  return required ? (
-    <span className="ml-2 rounded-[4px] bg-accent px-1.5 py-0.5 text-[0.6875rem] font-bold text-accent-ink align-middle">必須</span>
-  ) : (
-    <span className="ml-2 rounded-[4px] bg-paper-2 border border-paper-3 px-1.5 py-0.5 text-[0.6875rem] font-bold text-muted align-middle">任意</span>
-  );
-}
-
 export function ContactForm() {
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
-  const [form, setForm] = useState({ name: '', email: '', tel: '', body: '' });
+  const [form, setForm] = useState({ name: '', email: '', tel: '', body: '', website: '' });
   const [invalid, setInvalid] = useState('');
 
   async function submit() {
-    if (!form.name || (!form.email && !form.tel)) {
-      setInvalid('お名前と、メールアドレスまたは電話番号のどちらかをご記入ください。');
+    const input = { source: 'contact' as const, name: form.name, email: form.email, phone: form.tel, message: form.body, website: form.website };
+    const problem = checkContact(input);
+    if (problem) {
+      setInvalid(problem);
       return;
     }
     setInvalid('');
     setState('sending');
-    const { error } = await supabase.from('contact_submissions').insert({
-      source: 'contact',
-      name: form.name,
-      email: form.email,
-      message: form.body,
-      payload: { tel: form.tel },
-    });
-    setState(error ? 'error' : 'done');
+    setState((await sendContact(input)) ? 'done' : 'error');
   }
 
   if (state === 'done') {
@@ -48,7 +36,7 @@ export function ContactForm() {
   }
 
   return (
-    <div className="rounded-card bg-plate border border-paper-3 shadow-card p-6 md:p-10 space-y-6">
+    <div className="relative rounded-card bg-plate border border-paper-3 shadow-card p-6 md:p-10 space-y-6">
       <div>
         <p className="flex items-center gap-2 font-display font-bold text-title text-ink">
           <i className="ri-mail-line text-accent" aria-hidden="true"></i>
@@ -57,7 +45,7 @@ export function ContactForm() {
         <p className="mt-2 text-sm text-ink-2">メールアドレスか電話番号のどちらかがあれば、こちらからご連絡します。</p>
       </div>
       <div>
-        <label htmlFor="contact-name" className="label">お名前<Badge required /></label>
+        <label htmlFor="contact-name" className="label">お名前<Badge kind="required" /></label>
         <input
           id="contact-name"
           name="name"
@@ -71,7 +59,7 @@ export function ContactForm() {
         />
       </div>
       <div>
-        <label htmlFor="contact-email" className="label">メールアドレス<Badge /></label>
+        <label htmlFor="contact-email" className="label">メールアドレス<Badge kind="either" /></label>
         <input
           id="contact-email"
           name="email"
@@ -85,7 +73,7 @@ export function ContactForm() {
         />
       </div>
       <div>
-        <label htmlFor="contact-tel" className="label">電話番号<Badge /></label>
+        <label htmlFor="contact-tel" className="label">電話番号<Badge kind="either" /></label>
         <input
           id="contact-tel"
           name="tel"
@@ -109,6 +97,11 @@ export function ContactForm() {
           onChange={(e) => setForm({ ...form, body: e.target.value })}
           placeholder="築年数・お住まいエリア・気になる症状などをお書きください"
         />
+      </div>
+      {/* ボット除け：人には見えない欄 */}
+      <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+        <label htmlFor="contact-website">website</label>
+        <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} />
       </div>
       {invalid && (
         <p role="alert" className="flex items-start gap-2 rounded-control border border-error px-4 py-3 text-sm font-medium text-error">

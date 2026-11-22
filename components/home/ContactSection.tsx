@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
+import { checkContact, sendContact } from "@/lib/sendContact";
+import { FormBadge } from "@/components/FormBadge";
 
 // 電話か、LINEか、フォームか。：左に電話・LINE・会社の情報（#company）、右にフォーム（Form）
 // ご依頼の流れ（/services の流れと同じ内容）
@@ -53,27 +54,22 @@ export default function ContactSection() {
     const estimate = String(formData.get("estimate") ?? "").trim();
     const message = String(formData.get("message") ?? "").trim();
 
-    try {
-      const { error: insertError } = await supabase.from("contact_submissions").insert({
-        source: "home",
-        name,
-        email,
-        message,
-        payload: { phone, estimate },
-      });
-
-      if (!insertError) {
-        setSubmitted(true);
-        form.reset();
-        setCharCount(0);
-      } else {
-        setError("送信に失敗しました。お手数ですがお電話・LINEでのお問い合わせをご検討ください。");
-      }
-    } catch {
-      setError("送信に失敗しました。お手数ですがお電話・LINEでのお問い合わせをご検討ください。");
-    } finally {
+    const input = { source: "home" as const, name, email, phone, message, estimate, website: String(formData.get("website") ?? "") };
+    const problem = checkContact(input);
+    if (problem) {
+      setError(problem);
       setSending(false);
+      return;
     }
+
+    if (await sendContact(input)) {
+      setSubmitted(true);
+      form.reset();
+      setCharCount(0);
+    } else {
+      setError("送信に失敗しました。お手数ですがお電話・LINEでのお問い合わせをご検討ください。");
+    }
+    setSending(false);
   };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -208,32 +204,39 @@ export default function ContactSection() {
                 id="maruai-contact-form"
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="mt-6 space-y-5"
+                noValidate
+                className="relative mt-6 space-y-5"
               >
+                <p className="text-sm text-ink-2">メールアドレスか電話番号のどちらかがあれば、こちらからご連絡します。</p>
+                {/* ボット除け：人には見えない欄 */}
+                <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                  <label htmlFor="home-website">website</label>
+                  <input id="home-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                </div>
                 <div>
                   <label htmlFor="name" className="label block mb-1.5">
-                    お名前 <span className="text-ink">*</span>
+                    お名前<FormBadge kind="required" />
                   </label>
                   <input type="text" id="name" name="name" required autoComplete="name" className="field" placeholder="山田 太郎" />
                 </div>
 
                 <div>
                   <label htmlFor="email" className="label block mb-1.5">
-                    メールアドレス <span className="text-ink">*</span>
+                    メールアドレス<FormBadge kind="either" />
                   </label>
-                  <input type="email" id="email" name="email" required autoComplete="email" inputMode="email" className="field" placeholder="example@email.com" />
+                  <input type="email" id="email" name="email" autoComplete="email" inputMode="email" className="field" placeholder="example@email.com" />
                 </div>
 
                 <div>
                   <label htmlFor="phone" className="label block mb-1.5">
-                    電話番号 <span className="text-ink">*</span>
+                    電話番号<FormBadge kind="either" />
                   </label>
-                  <input type="tel" id="phone" name="phone" required autoComplete="tel" inputMode="tel" className="field" placeholder="029-1234-5678" />
+                  <input type="tel" id="phone" name="phone" autoComplete="tel" inputMode="tel" className="field" placeholder="029-1234-5678" />
                 </div>
 
                 <div>
                   <label htmlFor="estimate-field" className="label block mb-1.5">
-                    見積もりシミュレーション結果
+                    見積もりシミュレーション結果<FormBadge />
                   </label>
                   <input
                     type="text"
@@ -247,12 +250,11 @@ export default function ContactSection() {
 
                 <div>
                   <label htmlFor="message" className="label block mb-1.5">
-                    お問い合わせ内容 <span className="text-ink">*</span>
+                    お問い合わせ内容<FormBadge />
                   </label>
                   <textarea
                     id="message"
                     name="message"
-                    required
                     rows={5}
                     maxLength={500}
                     onChange={handleTextareaChange}
