@@ -42,7 +42,7 @@ export default function HeroSection() {
               <span>自社の職人が</span><span>塗る。</span>
             </h1>
             <p className="mt-6 text-lead leading-relaxed text-plate-ink opacity-90 max-w-[30em] [&>span]:inline-block">
-              <span>街の塗装屋さんから、</span><span>知り合いの塗装屋さんを</span><span>目指して。</span>
+              <span>茨城県阿見町の塗装店です。</span><span>お家を見て見積もった職人が、</span><span>そのまま塗ります。</span>
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <a href="#simulation" onClick={handleCtaClick} className="btn btn--primary">

@@ -1,12 +1,13 @@
 import { MobileCtaBar } from '@/components/site/MobileCtaBar';
 import type { Metadata } from 'next';
-import { Shippori_Mincho_B1, Zen_Kaku_Gothic_New } from 'next/font/google';
+import { Shippori_Mincho_B1, Zen_Kaku_Gothic_New, Yuji_Syuku } from 'next/font/google';
 import 'remixicon/fonts/remixicon.css';
 import './globals.css';
 import { Navbar } from '@/components/site/Navbar';
 import { SiteFooter } from '@/components/site/SiteFooter';
 import { FloatingMaruai } from '@/components/feature/FloatingMaruai';
 import { JsonLd } from '@/components/JsonLd';
+import { PaintIntro } from '@/components/PaintIntro';
 import { localBusinessJsonLd, SITE, IS_PRODUCTION } from '@/lib/seo';
 
 // 見出し・数字：しっぽり明朝 B1（職人の手仕事の印象）、本文：Zen Kaku Gothic New。
@@ -23,6 +24,15 @@ const zen = Zen_Kaku_Gothic_New({
   subsets: ['latin'],
   variable: '--font-zen',
   display: 'swap',
+  preload: false,
+});
+
+// オープニングの社名（筆文字）。使う4文字の分だけ読み込まれる。差し替わりのチラつきを避けて block
+const brush = Yuji_Syuku({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-brush',
+  display: 'block',
   preload: false,
 });
 
@@ -51,8 +61,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={`${mincho.variable} ${zen.variable}`}>
+    <html lang="ja" className={`${mincho.variable} ${zen.variable} ${brush.variable}`} suppressHydrationWarning>
+      <head>
+        {/* オープニングは1セッション1回：描画前に判定してチラつきを防ぐ */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "try{if(sessionStorage.getItem('maruai-intro-seen'))document.documentElement.classList.add('pi-off')}catch(e){}",
+          }}
+        />
+      </head>
       <body>
+        <PaintIntro />
         <Navbar />
         {children}
         <SiteFooter />

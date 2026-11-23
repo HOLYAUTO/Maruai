@@ -24,7 +24,7 @@ const LOGO = [
   { c: '装', r: -0.6, y: 1, s: 1.01 },
   { c: '業', r: 1.8, y: -1, s: 1.03 },
 ];
-const PAINT_RGB: [number, number, number] = [0x27 / 255, 0x41 / 255, 0x4f / 255]; // --brand-deep
+const PAINT_RGB: [number, number, number] = [0x18 / 255, 0x25 / 255, 0x35 / 255]; // --color-ink（紺）
 
 export function PaintIntro() {
   const [phase, setPhase] = useState<'paint' | 'logo' | 'out' | 'done'>('paint');
@@ -41,7 +41,7 @@ export function PaintIntro() {
     const canvas = canvasRef.current;
     const gl = canvas?.getContext('webgl', { antialias: false, alpha: true, premultipliedAlpha: true, powerPreference: 'high-performance' });
     // 刷毛目の陰影に画面上の微分を使う（ほぼ全端末で使えるが、無ければ出さない）
-    if (!canvas || !gl || !gl.getExtension('OES_standard_derivatives')) {
+    if (!canvas || !gl || gl.isContextLost() || !gl.getExtension('OES_standard_derivatives')) {
       setPhase('done');
       return;
     }
@@ -124,11 +124,12 @@ export function PaintIntro() {
     return () => {
       cancelAnimationFrame(raf);
       timers.forEach(clearTimeout);
+      // ここでは WebGL の文脈を捨てない（開発時の StrictMode は同じ canvas で effect を2回動かすため、
+      // 捨てると2回目が描けなくなる）。文脈は退場が終わって取り外すときに手放す。
       gl.deleteBuffer(buf);
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
       gl.deleteShader(fs);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, []);
 
@@ -136,7 +137,10 @@ export function PaintIntro() {
   useEffect(() => {
     if (phase !== 'out') return;
     if (outAt.current === null) outAt.current = performance.now();
-    const id = window.setTimeout(() => setPhase('done'), REMOVE_AFTER * 1000);
+    const id = window.setTimeout(() => {
+      canvasRef.current?.getContext('webgl')?.getExtension('WEBGL_lose_context')?.loseContext();
+      setPhase('done');
+    }, REMOVE_AFTER * 1000);
     return () => clearTimeout(id);
   }, [phase]);
 

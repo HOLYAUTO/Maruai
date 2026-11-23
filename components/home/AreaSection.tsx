@@ -9,7 +9,7 @@ export default function AreaSection() {
             <p className="eyebrow">Area</p>
             <h2 className="mt-4">どこまで来てくれる？</h2>
             <p className="mt-6 text-base text-ink-2">
-              丸愛装業ではお客様のご相談や不安をなるべく早く解決するために、すぐ駆けつけられる60分以内のエリアに限定しています。ご近所だからこそ、完工後のアフターフォローも万全です。
+              ご相談や心配ごとにすぐ駆けつけられるよう、阿見町から60分以内の地域に絞っています。近くなので、工事のあとも呼んでいただければ伺えます。
             </p>
             <p className="mt-4 label">※親族の方、お知り合いの方が県外の場合はご相談ください。</p>
           </div>
