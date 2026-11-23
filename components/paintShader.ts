@@ -157,7 +157,7 @@ void main(){
   float g = noise(vec2(q.x*0.006, q.y*0.13)) * 0.40
           + noise(vec2(q.x*0.02, q.y*0.45)) * 0.22
           + clamp((c0.y - 0.3) * 0.5, 0.0, 0.38);
-  float opE = pow(op, 1.6);   // 前半はゆっくり（社名が浮き上がって消えるのを待つ）、後半で一気に
+  float opE = pow(op, 1.6);   // 前半はゆっくり（社名がズームアウトして消えるのを待つ）、後半で一気に
   float alpha = 1.0 - smoothstep(0.0, 1.0, opE * 1.28 - g * 0.28);
   gl_FragColor = vec4(col * alpha, alpha);
 }`;

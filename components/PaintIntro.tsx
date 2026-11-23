@@ -5,7 +5,7 @@ import { PAINT_FRAG, PAINT_VERT, planStrokes } from './paintShader';
 /**
  * 初回表示のオープニング：くすんだ古いモルタル壁を、職人が刷毛で新しい塗料に塗り替える。
  * 1本ずつ太さ・角度・筆圧の違うストロークで塗り、最後に仕上げの一刷毛。塗り終わると社名が現れる。
- * 最後は社名がゆっくり浮き上がりながら、塗った面が刷毛目に沿って透けてトップページが見えてくる。
+ * 最後は社名が控えめにズームアウトしながら消え、塗った面が刷毛目に沿って透けてトップページが見えてくる。
  *
  * - 描画は WebGL のシェーダー（paintShader.ts）。WebGL が使えない環境では表示しない
  * - 同一セッションでは2回目以降は表示しない（app/layout.tsx の head スクリプトで描画前に判定）
@@ -15,7 +15,7 @@ const STORAGE_KEY = 'maruai-intro-seen';
 
 // タイムライン（秒）。塗りの時間配分は paintShader.ts の planStrokes
 const LOGO_HOLD = 1.6; // 社名を書き始めてから退場が始まるまで（4文字書き終えて一呼吸）
-const OUT_DUR = 2.0; // 塗りが透けきるまで（社名の浮き上がりは globals.css の .pi.is-out .pi-name で 2.2s）
+const OUT_DUR = 2.0; // 塗りが透けきるまで（社名のズームアウトは globals.css の .pi.is-out .pi-name で 2.2s）
 const REMOVE_AFTER = 2.3; // 退場開始から取り外すまで
 // 社名：手で書いたような揺らぎ（傾き・高さ・大きさを文字ごとにわずかに変える）
 const LOGO = [
@@ -132,7 +132,7 @@ export function PaintIntro() {
     };
   }, []);
 
-  // 退場：塗りが透け、社名が浮き上がり終わったら取り外す
+  // 退場：塗りが透け、社名がズームアウトし終わったら取り外す
   useEffect(() => {
     if (phase !== 'out') return;
     if (outAt.current === null) outAt.current = performance.now();

@@ -377,9 +377,9 @@
   .psim .total .yen{font-size:3.5rem}
   .psim .sbtn{padding:1em 1em;font-size:1rem}
 
-  /* ===== オープニング：古い壁を刷毛で塗り替える → 光が流れる → 社名 → 社名が浮き上がり、塗りが透けてページへ
+  /* ===== オープニング：古い壁を刷毛で塗り替える → 筆文字の社名 → 社名がズームアウトし、塗りが透けてページへ
      （components/PaintIntro.tsx / paintShader.ts）
-     モーション言語：落ち着いた上質寄り。入場・浮き上がりは cubic-bezier(.22,1,.36,1)。主役は塗りだけ */
+     モーション言語：落ち着いた上質寄り。入場・ズームアウトは cubic-bezier(.22,1,.36,1)。主役は塗りだけ */
   .pi{position:fixed;inset:0;z-index:200;background:#D5CFC3;cursor:pointer}
   .pi:not(.is-js){animation:pi-fallback .6s ease 3.2s forwards}
   @keyframes pi-fallback{to{opacity:0;visibility:hidden}}
@@ -397,8 +397,9 @@
     transition:-webkit-mask-position .62s cubic-bezier(.45,.05,.3,1),mask-position .62s cubic-bezier(.45,.05,.3,1);
     transition-delay:calc(var(--i) * 170ms)}
   .pi.is-logo .pi-name span,.pi.is-out .pi-name span{-webkit-mask-position:0 0;mask-position:0 0}
-  /* 退場：ゆっくり浮き上がりながら溶けるように消える。ページがはっきり見える前に消え切る（重なって読みにくくならないように） */
-  .pi.is-out .pi-name{transform:translateY(-44px);opacity:0;
+  /* 退場：一歩下がって仕上がりを眺めるように、控えめにズームアウトしながら溶けるように消える。
+     ページがはっきり見える前に消え切る（重なって読みにくくならないように） */
+  .pi.is-out .pi-name{transform:scale(.9);opacity:0;
     transition:transform 2.2s cubic-bezier(.22,1,.36,1),opacity 1s cubic-bezier(.4,0,.2,1) .45s}
   html.pi-off .pi{display:none}
   @media(prefers-reduced-motion:reduce){.pi{display:none}}
