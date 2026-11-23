@@ -403,3 +403,41 @@
     transition:transform 2.2s cubic-bezier(.22,1,.36,1),opacity 1s cubic-bezier(.4,0,.2,1) .45s}
   html.pi-off .pi{display:none}
   @media(prefers-reduced-motion:reduce){.pi{display:none}}
+
+  /* ===== トップページ（書き直し）：飾りを減らし、事実を読みやすく並べる ===== */
+  .hero-place{font-size:.92rem;font-weight:700;color:var(--ink-soft);margin-bottom:.4em}
+  .hero h1{margin-top:.2em}
+  .hero-facts{list-style:none;margin:0 0 1.8em;display:grid;gap:.35em;font-size:1rem}
+  .hero-facts li{position:relative;padding-left:1.1em}
+  .hero-facts li::before{content:"";position:absolute;left:0;top:.78em;width:6px;height:6px;border-radius:50%;background:var(--ember)}
+  .hero-tel{margin-top:16px;font-size:.95rem;color:var(--ink-soft)}
+  .hero-tel a{font-family:var(--font-num);font-weight:800;font-size:1.35rem;color:var(--ink);margin:0 .15em}
+  .steps{list-style:none;border-top:1px solid var(--line);max-width:860px}
+  .steps li{display:grid;grid-template-columns:2.4em 13em 1fr;gap:6px 18px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .steps .n{font-family:var(--font-num);font-weight:800;font-size:1.3rem;color:var(--ember)}
+  .steps h3{font-size:1.08rem;font-weight:700}
+  .steps p{color:var(--ink-soft);font-size:.98rem}
+  .why{margin-top:36px;max-width:760px}
+  .why h3{font-size:1.1rem;font-weight:700;margin-bottom:.4em}
+  .why p{color:var(--ink-soft)}
+  .price-table{width:100%;max-width:520px;border-collapse:collapse;border-top:1px solid var(--line)}
+  .price-table th,.price-table td{padding:14px 4px;border-bottom:1px solid var(--line)}
+  .price-table th{text-align:left;font-weight:700}
+  .price-table td{text-align:right;color:var(--ink-soft)}
+  .price-table td b{font-family:var(--font-num);font-size:1.5rem;color:var(--ink);margin-right:.1em}
+  .price-link{margin-top:18px}
+  .price-link a{color:var(--brand);font-weight:700;border-bottom:1px solid currentColor}
+  .svc-plain{background:#fff}
+  .msg-title{color:#fff;font-size:1.5rem;margin-bottom:.8em}
+  .top-corp{display:grid;grid-template-columns:7em 1fr;max-width:640px;margin-top:26px;border-top:1px solid var(--line)}
+  .top-corp dt,.top-corp dd{padding:12px 4px;border-bottom:1px solid var(--line)}
+  .top-corp dt{font-weight:700}
+  .top-corp dd{color:var(--ink-soft)}
+  @media(max-width:700px){
+    .steps li{grid-template-columns:2em 1fr}
+    .steps p{grid-column:2}
+  }
+  /* 日本語の見出しは文節で折り返す（「職人\nが、」のような泣き別れを防ぐ） */
+  h1,h2,h3{word-break:auto-phrase;text-wrap:balance}
+  .nb{white-space:nowrap}
+  .hero h1{font-size:clamp(1.9rem,4.4vw,3.1rem)}
