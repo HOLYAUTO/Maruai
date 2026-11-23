@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Shippori_Mincho, Zen_Kaku_Gothic_New, Manrope } from 'next/font/google';
+import { Shippori_Mincho, Zen_Kaku_Gothic_New, Manrope, Yuji_Syuku } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -22,6 +22,14 @@ const serif = Shippori_Mincho({
   preload: false,
 });
 const num = Manrope({ subsets: ['latin'], variable: '--font-num', display: 'swap' });
+// オープニングの社名（筆文字）。使う4文字の分だけ読み込まれる。差し替わりのチラつきを避けて block
+const brush = Yuji_Syuku({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-brush',
+  display: 'block',
+  preload: false,
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -44,7 +52,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={`${sans.variable} ${serif.variable} ${num.variable}`} suppressHydrationWarning>
+    <html lang="ja" className={`${sans.variable} ${serif.variable} ${num.variable} ${brush.variable}`} suppressHydrationWarning>
       <head>
         {/* オープニングは1セッション1回：描画前に判定してチラつきを防ぐ */}
         <script

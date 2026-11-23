@@ -14,9 +14,16 @@ import { PAINT_FRAG, PAINT_VERT, planStrokes } from './paintShader';
 const STORAGE_KEY = 'maruai-intro-seen';
 
 // タイムライン（秒）。塗りの時間配分は paintShader.ts の planStrokes
-const LOGO_HOLD = 1.3; // 社名が出てから退場が始まるまで
+const LOGO_HOLD = 1.6; // 社名を書き始めてから退場が始まるまで（4文字書き終えて一呼吸）
 const OUT_DUR = 2.0; // 塗りが透けきるまで（社名の浮き上がりは globals.css の .pi.is-out .pi-name で 2.2s）
 const REMOVE_AFTER = 2.3; // 退場開始から取り外すまで
+// 社名：手で書いたような揺らぎ（傾き・高さ・大きさを文字ごとにわずかに変える）
+const LOGO = [
+  { c: '丸', r: -2, y: 2, s: 1.04 },
+  { c: '愛', r: 1.2, y: -3, s: 0.98 },
+  { c: '装', r: -0.6, y: 1, s: 1.01 },
+  { c: '業', r: 1.8, y: -1, s: 1.03 },
+];
 const PAINT_RGB: [number, number, number] = [0x27 / 255, 0x41 / 255, 0x4f / 255]; // --brand-deep
 
 export function PaintIntro() {
@@ -139,8 +146,8 @@ export function PaintIntro() {
     <div className={`pi${js ? ' is-js' : ''} is-${phase}`} aria-hidden="true" onClick={() => setPhase('out')}>
       <canvas ref={canvasRef} className="pi-canvas" />
       <div className="pi-name">
-        {[...'丸愛装業'].map((c, i) => (
-          <span key={i} style={{ ['--i' as string]: i }}>
+        {LOGO.map(({ c, r, y, s }, i) => (
+          <span key={i} style={{ ['--i' as string]: i, ['--r' as string]: `${r}deg`, ['--y' as string]: `${y}px`, ['--s' as string]: s }}>
             {c}
           </span>
         ))}
