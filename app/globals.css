@@ -133,3 +133,34 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
+
+/* ---------------------------------------------------------------------
+   オープニング（レイヤー外：Tailwind の並び順に左右されないように）
+   --------------------------------------------------------------------- */
+  /* ===== オープニング：古い壁を刷毛で塗り替える → 筆文字の社名 → 社名がズームアウトし、塗りが透けてページへ
+     （components/PaintIntro.tsx / paintShader.ts）
+     モーション言語：落ち着いた上質寄り。入場・ズームアウトは cubic-bezier(.22,1,.36,1)。主役は塗りだけ */
+  /* 重なり順はヘッダー（--z-sticky-nav）やモーダルより上 */
+  .pi{position:fixed;inset:0;z-index:calc(var(--z-tooltip,600) + 100);background:#D5CFC3;cursor:pointer}
+  .pi:not(.is-js){animation:pi-fallback .6s ease 3.2s forwards}
+  @keyframes pi-fallback{to{opacity:0;visibility:hidden}}
+  .pi.is-js{background:transparent}  /* 以降はキャンバスが全面を描く（透けるのもキャンバス側） */
+  .pi.is-out{pointer-events:none}
+  .pi-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* 社名：筆文字。1文字ずつ、書く方向（左上→右下）に筆が走るように現れる。傾き・高さ・大きさを文字ごとにわずかに揺らす */
+  .pi-name{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;
+    font-family:var(--font-brush),var(--font-display),serif;font-weight:400;color:#F3EEE4;font-size:clamp(2.6rem,8vw,4.4rem);
+    letter-spacing:.1em;padding-left:.1em;line-height:1;text-shadow:0 1px 0 rgba(0,0,0,.2),0 10px 30px rgba(0,0,0,.18)}
+  .pi-name span{display:inline-block;transform:translateY(var(--y)) rotate(var(--r)) scale(var(--s));
+    -webkit-mask-image:linear-gradient(118deg,#000 46%,transparent 54%);mask-image:linear-gradient(118deg,#000 46%,transparent 54%);
+    -webkit-mask-size:280% 100%;mask-size:280% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+    -webkit-mask-position:100% 0;mask-position:100% 0;
+    transition:-webkit-mask-position .62s cubic-bezier(.45,.05,.3,1),mask-position .62s cubic-bezier(.45,.05,.3,1);
+    transition-delay:calc(var(--i) * 170ms)}
+  .pi.is-logo .pi-name span,.pi.is-out .pi-name span{-webkit-mask-position:0 0;mask-position:0 0}
+  /* 退場：一歩下がって仕上がりを眺めるように、控えめにズームアウトしながら溶けるように消える。
+     ページがはっきり見える前に消え切る（重なって読みにくくならないように） */
+  .pi.is-out .pi-name{transform:scale(.9);opacity:0;
+    transition:transform 2.2s cubic-bezier(.22,1,.36,1),opacity 1s cubic-bezier(.4,0,.2,1) .45s}
+  html.pi-off .pi{display:none}
+  @media(prefers-reduced-motion:reduce){.pi{display:none}}

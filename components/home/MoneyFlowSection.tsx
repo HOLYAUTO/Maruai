@@ -43,7 +43,7 @@ export default function MoneyFlowSection() {
             <h2 className="mt-4">なぜ、この値段で塗れる？</h2>
           </div>
           <p className="lead md:col-span-6">
-            同じ100万円の塗装工事。お金の流れを比べれば、違いは一目瞭然です。
+            同じ100万円の塗装工事で、お金がどこに行くかを比べました。
           </p>
         </div>
 
@@ -143,7 +143,7 @@ export default function MoneyFlowSection() {
         </div>
 
         <p className="mt-8 text-base text-ink-2 max-w-[44em]">
-          単に「安い」だけじゃない。無駄を省いて品質に全振りすることで、適正価格×最高品質の両立を実現しています。
+          この値段で塗れるのは、営業会社と下請けの取り分がないからです。その分を、職人の手間と材料に回しています。
         </p>
       </div>
     </section>

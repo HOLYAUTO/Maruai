@@ -250,7 +250,7 @@ export default function SimulationSection() {
               {partsLabels.length > 0 && <> ＋ {partsLabels.join("・")}</>}
             </p>
             <p className="mt-5 pt-5 border-t border-[color-mix(in_oklab,var(--color-plate-ink)_30%,transparent)] text-base font-bold text-plate-ink">
-              中間マージンゼロ。この金額が100%職人の手に届きます
+              中間マージンはかかりません。この金額は職人と材料に使われます
             </p>
             <p className="mt-2 text-sm text-plate-ink">※現地調査後の正式見積もりとは異なる場合があります。足場代込み。</p>
             <div className="mt-6 flex flex-col gap-3">

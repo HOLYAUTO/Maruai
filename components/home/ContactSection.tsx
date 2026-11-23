@@ -86,9 +86,9 @@ export default function ContactSection() {
     <section id="contact" className="bg-paper py-[var(--section-gap)]">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6 items-end">
-          <div className="md:col-span-6"><p className="eyebrow">Contact</p><h2 className="mt-4">電話か、LINEか、フォームか。</h2></div>
+          <div className="md:col-span-6"><p className="eyebrow">Contact</p><h2 className="mt-4">どうやって相談すればいい？</h2></div>
           <p className="lead md:col-span-6">
-            ご相談はどのような事でもお気軽にどうぞ。お問い合わせは、3営業日以内に返信させていただきます。
+            電話・LINE・フォームのどれからでも大丈夫です。お問い合わせには、3営業日以内にお返事します。
           </p>
         </div>
 

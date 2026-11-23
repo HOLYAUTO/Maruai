@@ -68,7 +68,7 @@ export default function AreaMap() {
                   strokeLinejoin="round"
                   className="transition-[fill] duration-short hover:brightness-95"
                 >
-                  <title>{m.name}{isHq ? "（本社）" : isMain ? "（主な施工エリア）" : ""}</title>
+                  <title>{`${m.name}${isHq ? "（本社）" : isMain ? "（主な施工エリア）" : ""}`}</title>
                 </path>
               );
             })}

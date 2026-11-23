@@ -11,7 +11,7 @@ const reasons = [
     title: "白い粉がつく",
     icon: "ri-hand-coin-line",
     severity: "注意",
-    desc: "触ると白い粉が手につく「チョーキング現象」。塗膜の劣化サインで、防水性能が著しく低下している証拠です。",
+    desc: "触ると白い粉が手につく「チョーキング現象」。塗膜が劣化して、防水性が落ちてきたサインです。",
     consequence: ["放置", "防水性喪失", "外壁内部の劣化"],
   },
   {
@@ -25,7 +25,7 @@ const reasons = [
     title: "カビ・コケ・染み",
     icon: "ri-plant-line",
     severity: "注意",
-    desc: "外壁に発生したカビやコケは見た目だけでなく、建物の美観と資産価値を著しく下げます。湿気の多い北面に発生しやすい傾向です。",
+    desc: "外壁に出たカビやコケは見た目を損ねます。湿気の多い北側に出やすい傾向です。",
     consequence: ["放置", "美観損失", "資産価値の低下"],
   },
 ];
@@ -118,7 +118,7 @@ export default function ReasonSection() {
             <h3 className="mt-4">まずは無料診断を</h3>
             <p className="mt-1 label">お気軽にご相談ください</p>
             <p className="mt-4 text-base text-ink-2">
-              大切なお住まいを守り、長く住み続けるためにも定期的なメンテナンスが大切です。外壁の劣化は目に見えない部分から進行していることも多く、気づいたときには大きな修繕が必要になることもあります。
+              外壁の傷みは、見えないところから進んでいることもあります。気になるところがあれば、まず見せてください。
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href="#contact" className="btn btn--secondary">
